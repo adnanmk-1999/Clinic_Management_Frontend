@@ -1,0 +1,90 @@
+/* NAVBAR BACKGROUND */
+.main-navbar {
+    background-color: #003ea8 !important;
+    white-space: nowrap !important;
+}
+
+/* BRAND AREA */
+.brand-area {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px;
+}
+
+.brand-logo {
+    height: 40px;
+    width: auto;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+}
+
+/* Make title and subtitle share a fixed width */
+.brand-text span {
+    display: inline-block;
+    width: 200px;        /* <-- Tweak this number until perfect */
+    text-align: left;    /* or center, depending on what you want */
+}
+
+/* Title styling */
+.brand-title {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* Subtitle styling */
+.brand-subtitle {
+    font-size: 0.82rem;
+    font-weight: 400;
+    color: #e6e6e6;
+}
+
+/* NAV ITEMS */
+.nav-links-container .nav-item-link {
+    color: white !important;
+    padding: 8px 14px !important;
+    font-size: 1rem;
+    font-weight: 500;
+    white-space: nowrap !important;
+}
+
+/* DROPDOWNS */
+.nav-dropdown .dropdown-toggle {
+    color: white !important;
+    padding: 8px 14px !important;
+    font-size: 1rem;
+    white-space: nowrap !important;
+}
+
+/* LOGIN BUTTON — ONLY STYLE, NO SIZE CHANGES */
+.login-btn-link {
+    background-color: #00255c !important;
+    color: #0d6efd !important;   /* <<< FIX: visible text */
+    border-radius: 6px !important;
+    font-weight: 600;
+}
+
+/* Hover state */
+.login-btn-link:hover {
+    background-color: #e9e9e9 !important;
+    color: #0d6efd !important;
+}
+
+
+/* LOGOUT BUTTON — ONLY APPEARANCE */
+.logout-btn-link {
+    background-color: #dc3545 !important;
+    color: #ffffff !important;   /* visible text */
+    border-radius: 6px !important;
+    font-weight: 600;
+}
+
+/* Hover */
+.logout-btn-link:hover {
+    background-color: #bb2d3b !important;
+    color: #fff !important;
+}

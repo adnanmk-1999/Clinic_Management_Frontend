@@ -1,4 +1,4 @@
-import Carousel from "../../components/carousel/carousel";
+import CustomCarousel from "../../components/carousel/carousel";
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import SearchPage from "../../components/search/search";
@@ -25,7 +25,7 @@ function EventsPage(){
       <div className="home">
         <center><h2 className="heading">Events and Announcements</h2></center>
    
-        <Carousel/>
+        <CustomCarousel/>
 
         <div>
         <div className = "staffCards">

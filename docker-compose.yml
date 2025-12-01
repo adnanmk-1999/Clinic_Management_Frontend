@@ -1,5 +1,5 @@
 services:
-  experion-ui:
+  frontend-ui:
     build:
       context: .
       dockerfile: Dockerfile.dev

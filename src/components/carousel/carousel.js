@@ -1,7 +1,11 @@
 import { Carousel } from "react-bootstrap";
 import "./carousel.css" 
 
-const Carousel1 = () => {
+import doctor1 from "../../assets/images/doctor1.jpg";
+import doctor2 from "../../assets/images/doctor2.jpg";
+import doctor3 from "../../assets/images/doctor3.jpg";
+
+const CustomCarousel = () => {
     return (
         <>
         <div className="carouselSize">
@@ -9,7 +13,7 @@ const Carousel1 = () => {
             <Carousel.Item>
                 <img
                     className="d-block w-100"
-                    src="https://s3-eu-west-1.amazonaws.com/intercare-web-public/wysiwyg-uploads%2F1580196666465-doctor.jpg"
+                    src={doctor1}
                     alt="First slide"
                 />
                 <Carousel.Caption>
@@ -20,7 +24,7 @@ const Carousel1 = () => {
             <Carousel.Item>
                 <img
                     className="d-block w-100"
-                    src="https://merriam-webster.com/assets/mw/images/article/art-wap-landing-mp-lg/doctor-holding-stethoscope-7523-f1a9a751cae1595d78e45e2478e4b12a@1x.jpg"
+                    src={doctor2}
                     alt="Second slide"
                 />
                 <Carousel.Caption>
@@ -31,7 +35,7 @@ const Carousel1 = () => {
             <Carousel.Item>
                 <img
                     className="d-block w-100"
-                    src="https://www.juniordoctors.eu/themes/custom/ejd/images/ejd-home-header.jpg"
+                    src={doctor3}
                     alt="Third slide"
                 />
                 <Carousel.Caption>
@@ -44,4 +48,4 @@ const Carousel1 = () => {
     );
   }
   
-  export default Carousel1;
+  export default CustomCarousel;
