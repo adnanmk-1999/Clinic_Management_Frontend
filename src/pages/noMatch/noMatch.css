@@ -1,0 +1,53 @@
+/* Full page center */
+.nomatch-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 220px);
+    /* Centers between navbar + footer */
+    padding: 20px;
+}
+
+/* Main card */
+.nomatch-card {
+    border-radius: 16px;
+    padding: 40px 50px;
+    width: 100%;
+    max-width: 550px;
+    text-align: center;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.10);
+    border: 1px solid rgba(0, 80, 160, 0.15);
+}
+
+/* Title */
+.nomatch-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #004aad;
+    margin-bottom: 10px;
+}
+
+/* Subtitle */
+.nomatch-subtitle {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+/* Button */
+.nomatch-home-btn {
+    background: #004aad;
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-block;
+    transition: 0.2s ease-in-out;
+}
+
+.nomatch-home-btn:hover {
+    background: #003b8b;
+}
