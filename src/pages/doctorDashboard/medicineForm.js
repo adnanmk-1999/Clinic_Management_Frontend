@@ -1,108 +1,162 @@
-import {useState, useEffect} from 'react';
-import axios from 'axios';
-import { Form, Button } from 'react-bootstrap';
-import dates from '../../helpers/todayDate/getDate';
+import { useState, useEffect } from "react";
+import api from "../../helpers/axiosServer/api";
+import { Form, Button } from "react-bootstrap";
+import dates from "../../helpers/todayDate/getDate";
+import "./doctor.css";
 
-function MedicineForm(props){
+function MedicineForm(props) {
     const [inputs, setInputs] = useState({});
-    console.log(props.details)
-    //fetching the details of patients
-    useEffect(()=>{
-        axios
-        .get(`http://localhost:4000/patients/${props.details}`)
-        .then(response=>{
-            console.log('Promise was fullfilled')
-            console.log(response)
-            setInputs(response.data)
-        })},[props.details])
 
-    function handleChange(event){
-        const name = event.target.name;
-        const value = event.target.value;
-        setInputs(values => ({...values, [name] : value}))
-    };
-  
-    function handleSubmit(event){
-        event.preventDefault();
-        console.log(inputs);
- //posting to the medicine table
-        axios.post(`http://localhost:4000/medicines`, inputs)
-         .then(response=>{
-            console.log('Promise was fullfilled')
-            console.log(response)
-            alert("Added Test ! Re-enter to add more !")
+    // Fetch patient info using patientId passed via props.details
+    useEffect(() => {
+        api.get(`/patients/${props.details}`)
+            .then(response => setInputs(response.data))
+            .catch(err => console.log(err));
+    }, [props.details]);
 
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setInputs(prev => ({ ...prev, [name]: value }));
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+
+        api.post(`/medicines`, inputs)
+            .then(() => {
+                alert("Medicine Added! Add more if needed.");
             })
-    };
+            .catch(err => console.log(err));
+    }
 
-    return(
-        <>
-        <center><h2>Medicine</h2></center>
-        <div className="form">
+    return (
+        <div className="home">
+            <center><h1 className="heading">Add Medicine</h1></center>
+            <hr />
 
-        <Form onSubmit = {handleSubmit}>
-        <Form.Group className="mb-3" controlId="formBasicText">
-                <input className="input" type = "hidden" name = "patientId" placeholder = "Enter Patient Id"
-                        value = {inputs.patientId || ''} onChange = {handleChange} 
-                        required></input>
-            </Form.Group>
-            
-            <Form.Group className="mb-3" controlId="formBasicText">
-                <Form.Label>Medicine Name</Form.Label>
-                <input className="input" type = "text" name = "medicineName" placeholder = "Enter Medicine Name"
-                        value = {inputs.medicineName || ''} onChange = {handleChange} 
-                        required></input>
-            </Form.Group>
+            <div className="form-card">
+                <Form onSubmit={handleSubmit}>
 
-            
-            <Form.Group className="mb-3">
-            <Form.Label>Unit</Form.Label>
-                <select name = 'unit' className="bld" value = {inputs.unit || ''} onChange = {handleChange}
-                        required>
-                    <option>Choose one</option>
-                    <option value = 'mg'>MG</option>
-                    <option value = 'ml'>ML</option>
-                    </select>
-            </Form.Group>
+                    {/* Hidden Patient ID */}
+                    <input
+                        type="hidden"
+                        name="patientId"
+                        value={inputs.patientId || ""}
+                        onChange={handleChange}
+                    />
 
-            <Form.Group className="mb-3" controlId="formBasicText">
-            <Form.Label>Dose</Form.Label>
-            <input className="input" type = "text" name = "dose"
-                        value = {inputs.dose || ''} onChange = {handleChange}
-                        required></input>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicText">
-            <Form.Label>Type</Form.Label>
-            <input className="input" type = "text" name = "type"
-                        value = {inputs.type || ''} onChange = {handleChange}
-                        required></input>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicText">
-            <Form.Label>Day</Form.Label>
-            <input className="input" type = "text" name = "day" placeholder = "Number of Days"
-                        value = {inputs.day || ''} onChange = {handleChange} 
-                        required></input>
-            </Form.Group>
+                    {/* Medicine Name */}
+                    <Form.Group className="mb-4">
+                        <label className="form-label">Medicine Name</label>
+                        <input
+                            className="form-input"
+                            type="text"
+                            name="medicineName"
+                            placeholder="Enter medicine name"
+                            value={inputs.medicineName || ""}
+                            onChange={handleChange}
+                            required
+                        />
+                    </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicText">
-            <Form.Label>Comments</Form.Label>
-            <input className="input" type = "text" name = "comment"
-                        value = {inputs.comment || ''} onChange = {handleChange} 
-                        required></input>
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicDate">
-            <Form.Label>Date of Medicine</Form.Label>
-            <input className="input" type = "date" name = "dateMedicine"
-                        value = {inputs.dateMedicine || ''} onChange = {handleChange} //validate for current date only
-                        min = {dates.getDate()} 
-                        max = {dates.getDate()}
-                        required></input>
-            </Form.Group>
-            <center>
-            <Button variant="primary" type="submit">ADD</Button>
-            </center>
-            </Form>
+                    {/* Unit */}
+                    <Form.Group className="mb-4">
+                        <label className="form-label">Unit</label>
+                        <select
+                            className="form-select"
+                            name="unit"
+                            value={inputs.unit || ""}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="">Select unit</option>
+                            <option value="mg">MG</option>
+                            <option value="ml">ML</option>
+                        </select>
+                    </Form.Group>
+
+                    {/* Dose */}
+                    <Form.Group className="mb-4">
+                        <label className="form-label">Dose</label>
+                        <input
+                            className="form-input"
+                            type="text"
+                            name="dose"
+                            placeholder="Eg. 1-0-1"
+                            value={inputs.dose || ""}
+                            onChange={handleChange}
+                            required
+                        />
+                    </Form.Group>
+
+                    {/* Type */}
+                    <Form.Group className="mb-4">
+                        <label className="form-label">Type</label>
+                        <input
+                            className="form-input"
+                            type="text"
+                            name="type"
+                            placeholder="Tablet / Syrup / Injection"
+                            value={inputs.type || ""}
+                            onChange={handleChange}
+                            required
+                        />
+                    </Form.Group>
+
+                    {/* Days */}
+                    <Form.Group className="mb-4">
+                        <label className="form-label">Days</label>
+                        <input
+                            className="form-input"
+                            type="text"
+                            name="day"
+                            placeholder="Number of days"
+                            value={inputs.day || ""}
+                            onChange={handleChange}
+                            required
+                        />
+                    </Form.Group>
+
+                    {/* Comments */}
+                    <Form.Group className="mb-4">
+                        <label className="form-label">Comments</label>
+                        <input
+                            className="form-input"
+                            type="text"
+                            name="comment"
+                            placeholder="Enter comments"
+                            value={inputs.comment || ""}
+                            onChange={handleChange}
+                            required
+                        />
+                    </Form.Group>
+
+                    {/* Date */}
+                    <Form.Group className="mb-4">
+                        <label className="form-label">Date</label>
+                        <input
+                            className="form-input"
+                            type="date"
+                            name="dateMedicine"
+                            value={inputs.dateMedicine || ""}
+                            onChange={handleChange}
+                            min={dates.getDate()}
+                            max={dates.getDate()}
+                            required
+                        />
+                    </Form.Group>
+
+                    {/* Buttons */}
+                    <div className="form-buttons">
+                        <Button className="btn-primary-form" type="submit">
+                            Add Medicine
+                        </Button>
+                    </div>
+
+                </Form>
             </div>
-            </>)
-        }
+        </div>
+    );
+}
+
 export default MedicineForm;

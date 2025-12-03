@@ -46,7 +46,7 @@ import PatientDetails from "./pages/doctorDashboard/PatientDetails";
 import PrescriptionAdd from "./pages/doctorDashboard/prescription";
 import Tests from "./pages/doctorDashboard/viewTestDetails";
 import Labresult from "./pages/doctorDashboard/testDetails";
-import EditMedicine from "./pages/doctorDashboard/editMedicine";
+import EditMedicine from "./pages/doctorDashboard/medicineEdit";
 import ViewPrescription from "./pages/doctorDashboard/viewPrescription"
 import PrescriptionDetails from "./pages/doctorDashboard/priscriptionDetails";
 

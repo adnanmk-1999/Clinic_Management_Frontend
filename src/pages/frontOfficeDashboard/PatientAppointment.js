@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Form, Button } from 'react-bootstrap';
-import {useParams} from 'react-router';
+import { useParams } from 'react-router';
 import roleController from '../../helpers/roleLogin/roleLogin';
 import dates from '../../helpers/todayDate/getDate';
 
@@ -17,26 +17,27 @@ function PatientAppointment() {
 
 function MyForm(props) {
 
-    if(!roleController.isFrontoffice()){
+    if (!roleController.isFrontoffice()) {
         window.location = '/login'
-      }
+    }
 
-    const[inputs, setInputs]=useState([]);
+    const [inputs, setInputs] = useState([]);
 
-    const[doctor, setDoctor]=useState([]);
+    const [doctor, setDoctor] = useState([]);
 
-    const {patientId} = useParams()
+    const { patientId } = useParams()
 
     console.log(patientId)
-    useEffect(()=>{
+    useEffect(() => {
         axios
-        .get(`http://localhost:4000/patients/${patientId}`)
-        .then(response=>{
-            console.log('Promise was fullfilled')
-            console.log(response)
-            setInputs(response.data)
+            .get(`http://localhost:4000/patients/${patientId}`)
+            .then(response => {
+                console.log('Promise was fullfilled')
+                console.log(response)
+                setInputs(response.data)
 
-        })},[patientId])
+            })
+    }, [patientId])
 
 
     function handleChange(event) {
@@ -60,39 +61,39 @@ function MyForm(props) {
 
         axios.post(`http://localhost:4000/appointments`, inputs)
             .then(response => {
-               // localStorage.setItem('mytoken', response.data.accessToken)
-               setInputs(response.data);
-               alert('Appointment confirmed');
-               window.location='/appointmentDisplay'
+                // localStorage.setItem('mytoken', response.data.accessToken)
+                setInputs(response.data);
+                alert('Appointment confirmed');
+                window.location = '/appointmentDisplay'
             })
     };
 
     //Adding the doctor details in the appointments table
-    function handleSubmit1(event){
+    function handleSubmit1(event) {
         event.preventDefault();
         axios.get(`http://localhost:4000/doctors/doctor/${doctor.doctorName}`)
-            .then(response => { 
+            .then(response => {
                 console.log(response);
-                if(response.data.length === 0){
+                if (response.data.length === 0) {
                     alert('Doctor Not Registered !')
                 }
-                else{
+                else {
                     alert('Doctor Exits ! Add Doctor')
                     setDoctor(response.data)
                     var doctor1 = doctor[0].doctorId
-                        console.log(doctor1)
-                        const name = 'doctorId';
-                        const value = doctor1;
+                    console.log(doctor1)
+                    const name = 'doctorId';
+                    const value = doctor1;
                     setTimeout(() => {
                         setInputs(values => ({ ...values, [name]: value }))
                         console.log(inputs)
-                    },500) 
+                    }, 500)
 
-                
+
                 }
             })
             .catch(error => {
-                if(error.response){
+                if (error.response) {
                     alert(error.response.data)  //=> response payload
                 }
             })
@@ -107,67 +108,67 @@ function MyForm(props) {
 
     return (
         <>
-        <div className="form">
+            <div className="form">
 
-        <Form onSubmit = {handleSubmit1}>
+                <Form onSubmit={handleSubmit1}>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Doctor Name</Form.Label>
-                <input className="input" type="text" name="doctorName" placeholder="Enter doctor name"
+                    <Form.Group className="mb-3" controlId="formBasicPassword">
+                        <Form.Label>Doctor Name</Form.Label>
+                        <input className="input" type="text" name="doctorName" placeholder="Enter doctor name"
                             value={doctor.doctorName || ''} onChange={handleChange1}
-                            minLength="3" maxLength="15"
+                            minLength="3" maxLength="50"
                             required></input>
-            </Form.Group>
+                    </Form.Group>
 
-            <Button variant="primary" type="submit">Check</Button>&nbsp;&nbsp;
-                
-            <Button variant="danger" type = "submit" >Add Doctor</Button>
-                       
-            </Form>
+                    <Button variant="primary" type="submit">Check</Button>&nbsp;&nbsp;
+
+                    <Button variant="danger" type="submit" >Add Doctor</Button>
+
+                </Form>
 
 
-        <Form onSubmit = {handleSubmit}>
+                <Form onSubmit={handleSubmit}>
 
-        <Form.Group className="mb-3" controlId="formBasicText">
-                <input className="input" type="hidden" name="patientId" placeholder="Enter patient name"
+                    <Form.Group className="mb-3" controlId="formBasicText">
+                        <input className="input" type="hidden" name="patientId" placeholder="Enter patient name"
                             value={inputs.patientId || ''} onChange={handleChange}
                             required></input>
-            </Form.Group>
-            
-            <Form.Group className="mb-3" controlId="formBasicText">
-                <Form.Label>Patient Name</Form.Label>
-                <input className="input" type="text" name="patientName" placeholder="Enter patient name"
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" controlId="formBasicText">
+                        <Form.Label>Patient Name</Form.Label>
+                        <input className="input" type="text" name="patientName" placeholder="Enter patient name"
                             value={inputs.patientName || ''} onChange={handleChange}
                             required></input>
-            </Form.Group>
+                    </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicText">
-                <input className="input" type="hidden" name="doctorId" placeholder="Enter doctor name"
+                    <Form.Group className="mb-3" controlId="formBasicText">
+                        <input className="input" type="hidden" name="doctorId" placeholder="Enter doctor name"
                             value={inputs.doctorId || ''} onChange={handleChange}
                             required></input>
-            </Form.Group>
+                    </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicDate">
-            <Form.Label>Appointment Date</Form.Label>
-            <input className="input" type="date" name="appointmentDate" 
+                    <Form.Group className="mb-3" controlId="formBasicDate">
+                        <Form.Label>Appointment Date</Form.Label>
+                        <input className="input" type="date" name="appointmentDate"
                             value={inputs.appointmentDate || ''} onChange={handleChange}
-                            min = {dates.getDate()}
+                            min={dates.getDate()}
                             required></input>
-            </Form.Group>
+                    </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicTime">
-            <Form.Label>Appointment Time</Form.Label>
-            <input className="input" type="time" name="appointmentTime" min="09:00" max="18.00"
+                    <Form.Group className="mb-3" controlId="formBasicTime">
+                        <Form.Label>Appointment Time</Form.Label>
+                        <input className="input" type="time" name="appointmentTime" min="09:00" max="18.00"
                             value={inputs.appointmentTime || ''} onChange={handleChange}
                             required></input>
-            </Form.Group>
+                    </Form.Group>
 
-            <center>
-            <Button variant="primary" type="submit">Submit</Button>&nbsp;&nbsp;
-            <Button variant="danger" onClick = {goToHome} >Cancel</Button>
-            </center>
+                    <center>
+                        <Button variant="primary" type="submit">Submit</Button>&nbsp;&nbsp;
+                        <Button variant="danger" onClick={goToHome} >Cancel</Button>
+                    </center>
 
-        </Form>
+                </Form>
 
             </div>
         </>

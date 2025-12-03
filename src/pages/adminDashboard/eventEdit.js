@@ -1,100 +1,116 @@
-import {useState, useEffect} from 'react';
-import axios from 'axios';
-import { Form, Button } from 'react-bootstrap';
-import {useParams} from 'react-router-dom';
-import roleController from '../../helpers/roleLogin/roleLogin';
-import dates from '../../helpers/todayDate/getDate';
+import { useState, useEffect } from "react";
+import api from "../../helpers/axiosServer/api";
+import { Form, Button } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+import roleController from "../../helpers/roleLogin/roleLogin";
+import dates from "../../helpers/todayDate/getDate";
+import "./admin.css";
 
-function EventEdit(){
-    const {id} = useParams();
+function EventEdit() {
+    if (!roleController.isAdmin()) {
+        window.location = "/login";
+    }
+
+    const { id } = useParams();
+
     return (
-        <>
-        <center><h1>Edit Event</h1></center>
-        <MyForm id = {id}/>
-        </>
+        <div className="home">
+            <center><h1 className="heading">Edit Event</h1></center>
+            <hr />
+
+            <div className="form-card">
+                <MyForm id={id} />
+            </div>
+        </div>
     );
 }
 
-function MyForm(props){
-
-    if(!roleController.isAdmin()){
-        window.location = '/login'
-      }
-
+function MyForm({ id }) {
     const [inputs, setInputs] = useState({});
-    //To get the event details from the staff id
+
     useEffect(() => {
-        axios.get(`http://localhost:4000/events/${props.id}`) //gets data from staff
-          .then(response =>{
-              console.log('Promise fullfilled');
-              console.log(response); 
-              setInputs(response.data);            
-          })
-    },[props.id]);
+        api.get(`/events/${id}`)
+            .then(response => setInputs(response.data))
+            .catch(err => console.log(err));
+    }, [id]);
 
-    function handleChange(event){
-        const name = event.target.name;
-        const value = event.target.value;
-        setInputs(values => ({...values, [name] : value}))
-    };
-
-    function handleSubmit(event){
-        event.preventDefault();
-        console.log(inputs);
-
-        axios.put(`http://localhost:4000/events/${props.id}`, inputs)
-            .then(response => { 
-                    console.log('Promise Fullfilled');
-                    console.log(response);
-                    alert("Event Updated !")
-                    window.location = '/eventlist';
-                    
-            })
-    };
-
-    function goToHome(){
-        window.location = '/';
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setInputs(prev => ({ ...prev, [name]: value }));
     }
 
-    return(
-        <>
-        <div className="form">
+    function handleSubmit(e) {
+        e.preventDefault();
 
-        <Form onSubmit = {handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicText">
-                <Form.Label>Event Name</Form.Label>
-                <input className="input" type = "text" name = "eventName" placeholder = "Enter event name"
-                        value = {inputs.eventName || ''} onChange = {handleChange} 
-                        required></input>
+        api.put(`/events/${id}`, inputs)
+            .then(() => {
+                alert("Event updated!");
+                window.location = "/eventlist";
+            })
+            .catch(err => console.log(err));
+    }
+
+    function goBack() {
+        window.location = "/eventlist";
+    }
+
+    return (
+        <Form onSubmit={handleSubmit}>
+
+            {/* Event Name */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Event Name</label>
+                <input
+                    className="form-input"
+                    type="text"
+                    name="eventName"
+                    placeholder="Enter event name"
+                    value={inputs.eventName || ""}
+                    onChange={handleChange}
+                    required
+                />
             </Form.Group>
 
-
-
-            <Form.Group className="mb-3" controlId="formBasicText">
-            <Form.Label>description</Form.Label>
-            <input className="input" type = "text" name = "description" placeholder = "Enter description"
-                        value = {inputs.description || ''} onChange = {handleChange} 
-                        required></input>
+            {/* Description */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Description</label>
+                <input
+                    className="form-input"
+                    type="text"
+                    name="description"
+                    placeholder="Enter description"
+                    value={inputs.description || ""}
+                    onChange={handleChange}
+                    required
+                />
             </Form.Group>
 
-
-
-            <Form.Group className="mb-3" controlId="formBasicDate">
-            <Form.Label>Date of Event</Form.Label>
-            <input className="input" type = "date" name = "dateOfEvent"
-                        value = {inputs.dateOfEvent || ''} onChange = {handleChange} min = {dates.getDate()}
-                        required></input>
+            {/* Event Date */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Event Date</label>
+                <input
+                    className="form-input"
+                    type="date"
+                    name="dateOfEvent"
+                    value={inputs.dateOfEvent || ""}
+                    onChange={handleChange}
+                    min={dates.getDate()}
+                    required
+                />
             </Form.Group>
 
-            <center>
-            <Button variant="primary" type="submit">Submit</Button>&nbsp;&nbsp;
-            <Button variant="danger" onClick = {goToHome} >Cancel</Button>
-            </center>
+            {/* Buttons */}
+            <div className="form-buttons">
+                <Button className="btn-primary-form" type="submit">
+                    Update
+                </Button>
 
+                <Button className="btn-secondary-form" onClick={goBack}>
+                    Cancel
+                </Button>
+            </div>
         </Form>
-
-        </div>
-        </>
     );
-};
+}
+
 export default EventEdit;
