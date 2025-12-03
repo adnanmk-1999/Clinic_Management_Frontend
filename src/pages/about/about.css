@@ -1,0 +1,21 @@
+.heading {
+  color: #003b9b;
+  margin-top: 25px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.home hr {
+  height: 10px;
+  background: #005be5;
+  margin-bottom: 30px;
+}
+
+.pretty-text {
+  font-size: 1.1rem;
+  line-height: 1.75;
+  color: #313131;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}

@@ -2,7 +2,7 @@ import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import "./header.css";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/healthcare.png";
 import roleController from "../../helpers/roleLogin/roleLogin";
 
 
@@ -14,23 +14,23 @@ function Header() {
 
         {/* LOGO + TITLE */}
         <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
-            <img
-                src={logo}
-                height="40"
-                alt="logo"
-                className="me-2"
-                style={{ borderRadius: "4px" }}
-            />
+          <img
+            src={logo}
+            height="40"
+            alt="logo"
+            className="me-2"
+            style={{ borderRadius: "4px" }}
+          />
 
-            <div className="brand-text">
-                <span className="brand-title">HealthTech</span>
-                <span className="brand-subtitle">Clinic Management System</span>
-            </div>
+          <div className="brand-text">
+            <span className="brand-title">HealthTech</span>
+            <span className="brand-subtitle">Clinic Management System</span>
+          </div>
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="main-navbar" />
         <Navbar.Collapse id="main-navbar">
-          
+
           <Nav className="ms-auto nav-links-container">
 
             {/* PUBLIC ROUTES */}
@@ -100,7 +100,7 @@ function Header() {
 
             {/* LOGOUT */}
             {localStorage.getItem("mytoken") && (
-              <Nav.Link className="nav-item-link logout-btn-link" onClick={() => { localStorage.clear(); window.location="/login"; }}>
+              <Nav.Link className="nav-item-link logout-btn-link" onClick={() => { localStorage.clear(); window.location = "/login"; }}>
                 Logout
               </Nav.Link>
             )}
