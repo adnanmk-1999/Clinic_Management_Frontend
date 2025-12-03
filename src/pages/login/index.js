@@ -1,91 +1,106 @@
-import {useState} from 'react';
-import axios from 'axios';
-import { Form, Button } from 'react-bootstrap';
+import { useState } from "react";
+import api from '../../helpers/axiosServer/api';
+import { Form, Button } from "react-bootstrap";
+import "./login.css";
+import eyeOpen from "../../assets/icons/eyeOpen.svg";
+import eyeClosed from "../../assets/icons/eyeClosed.svg";
 
-function LoginForm(){
+function LoginForm() {
     localStorage.clear();
-    
-    //A simple reload of the page once.
-    window.onload = function() {
-        if(!window.location.hash) {
-            window.location = window.location + '#loaded';
-            window.location.reload();
-        }
-    }
 
     return (
         <>
-      <center>  <h1>Enter Login Details</h1></center>
-        <MyForm/>
+            <div className="home">
+                <center><h1 className="heading">Login</h1></center>
+                <hr />
+                <div className="login-container">
+
+                    <div className="login-card">
+                        <MyForm />
+                    </div>
+                </div>
+            </div>
         </>
     );
 }
 
-function MyForm(props){
+function MyForm() {
     const [inputs, setInputs] = useState({});
+    const [showPassword, setShowPassword] = useState(false);
 
-    function handleChange(event){
-        const name = event.target.name;
-        const value = event.target.value;
-        setInputs(values => ({...values, [name] : value}))
-    };
-
-    function handleSubmit(event){
-        event.preventDefault();
-        console.log(inputs);
-
-        axios.post(`users/login`, inputs)
-            .then(response => { 
-                localStorage.setItem('mytoken', response.data.accessToken)
-                localStorage.setItem('myrole', response.data.roleId)
-                localStorage.setItem('myemail', response.data.user.userName)
-                window.location = '/'        
-            })
-            .catch(error =>{
-                localStorage.clear();
-                if(error.response){
-                    alert(error.response.data)  //=> response payload
-                }
-            })
-    };
-
-    function goToHome(){
-        window.location = '/';
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setInputs(values => ({ ...values, [name]: value }));
     }
 
-    return(
-        <>
-        <div className="form">
+    function handleSubmit(e) {
+        e.preventDefault();
+        api
+            .post(`users/login`, inputs)
+            .then(response => {
+                localStorage.setItem("mytoken", response.data.accessToken);
+                localStorage.setItem("myrole", response.data.roleId);
+                localStorage.setItem("myemail", response.data.user.userName);
+                window.location = "/";
+            })
+            .catch(error => {
+                localStorage.clear();
+                if (error.response) alert(error.response.data);
+            });
+    }
 
-
-        <Form onSubmit = {handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>User Name</Form.Label>
-                <input className="input" type = "email" name = "userName" placeholder = "Enter your email"
-                        value = {inputs.userName || ''} onChange = {handleChange} 
-                        required></input>
-                <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
-                </Form.Text>
+    return (
+        <Form onSubmit={handleSubmit}>
+            {/* Email */}
+            <Form.Group className="mb-4">
+                <Form.Label className="login-label">User Email</Form.Label>
+                <input
+                    className="login-input"
+                    type="email"
+                    name="userName"
+                    placeholder="Enter your email"
+                    value={inputs.userName || ""}
+                    onChange={handleChange}
+                    required
+                />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <input className="input" type = "password" name = "password" placeholder = "Enter password"
-                        value = {inputs.password || ''} onChange = {handleChange}
-                        required></input>
+            {/* Password */}
+            <Form.Group className="mb-4">
+                <Form.Label className="login-label">Password</Form.Label>
+                <div className="password-wrapper">
+                    <input
+                        className="login-input"
+                        type={showPassword ? "text" : "password"}
+                        name="password"
+                        placeholder="Enter password"
+                        value={inputs.password || ""}
+                        onChange={handleChange}
+                        required
+                    />
+                    <img
+                        src={showPassword ? eyeClosed : eyeOpen}
+                        className="password-toggle"
+                        alt="toggle password"
+                        onClick={() => setShowPassword(!showPassword)}
+                    />
+                </div>
             </Form.Group>
 
-            <center>
-            <Button variant="primary" type="submit">Submit</Button>&nbsp;&nbsp;
-            <Button variant="danger" onClick = {goToHome} >Cancel</Button>
-            </center>
-
+            {/* Buttons */}
+            <div className="login-buttons">
+                <Button className="login-btn-primary" type="submit">
+                    Login
+                </Button>
+                <Button
+                    className="login-btn-secondary"
+                    onClick={() => (window.location = "/")}
+                >
+                    Cancel
+                </Button>
+            </div>
         </Form>
-
-        </div>
-        </>
     );
+}
 
-};
 export default LoginForm;
