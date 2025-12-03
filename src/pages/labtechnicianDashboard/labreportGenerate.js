@@ -5,36 +5,36 @@ import { Form, Button } from "react-bootstrap";
 import "./labtechnician.css";
 import roleController from "../../helpers/roleLogin/roleLogin";
 
-function LabreportEdit() {
+function GenerateReport() {
 
     if (!roleController.isLabtechnician()) {
         window.location = "/login";
     }
 
-    const { labReportId } = useParams();
+    const { testId } = useParams();
 
     return (
         <div className="home">
-            <center><h1 className="heading">Edit Lab Report</h1></center>
+            <center><h1 className="heading">Enter Lab Test Results</h1></center>
             <hr />
 
             <div className="form-card">
-                <MyForm labReportId={labReportId} />
+                <MyForm testId={testId} />
             </div>
         </div>
     );
 }
 
-function MyForm({ labReportId }) {
+function MyForm({ testId }) {
 
     const [inputs, setInputs] = useState({});
 
     useEffect(() => {
-        api.get(`reports/${labReportId}`)
+        api.get(`tests/${testId}`)
             .then(response => {
                 setInputs(response.data);
             });
-    }, [labReportId]);
+    }, [testId]);
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -44,15 +44,15 @@ function MyForm({ labReportId }) {
     function handleSubmit(e) {
         e.preventDefault();
 
-        api.put(`reports/${labReportId}`, inputs)
+        api.post(`reports`, inputs)
             .then(() => {
-                alert("Lab Report Updated Successfully!");
+                alert("Lab Report Submitted Successfully!");
                 window.location = "/reportlist";
             });
     }
 
     function goBack() {
-        window.location = `/reportdetails/${labReportId}`;
+        window.location = `/testdetails/${testId}`;
     }
 
     return (
@@ -82,7 +82,8 @@ function MyForm({ labReportId }) {
                     type="text"
                     name="description"
                     placeholder="Enter description"
-                    maxLength={40}
+                    minLength={3}
+                    maxLength={50}
                     value={inputs.description || ""}
                     onChange={handleChange}
                     required
@@ -109,7 +110,7 @@ function MyForm({ labReportId }) {
                     className="form-input"
                     type="text"
                     name="desiredRange"
-                    placeholder="eg. 1000–2000"
+                    placeholder="e.g. 1000–2000"
                     value={inputs.desiredRange || ""}
                     onChange={handleChange}
                     required
@@ -137,8 +138,8 @@ function MyForm({ labReportId }) {
                     className="form-input"
                     type="text"
                     name="remarks"
-                    placeholder="Enter remarks"
-                    maxLength={40}
+                    placeholder="Enter comments"
+                    maxLength={30}
                     value={inputs.remarks || ""}
                     onChange={handleChange}
                     required
@@ -148,9 +149,8 @@ function MyForm({ labReportId }) {
             {/* Buttons */}
             <div className="form-buttons">
                 <Button className="btn-primary-form" type="submit">
-                    Update
+                    Submit
                 </Button>
-
                 <Button className="btn-secondary-form" onClick={goBack}>
                     Cancel
                 </Button>
@@ -160,4 +160,4 @@ function MyForm({ labReportId }) {
     );
 }
 
-export default LabreportEdit;
+export default GenerateReport;

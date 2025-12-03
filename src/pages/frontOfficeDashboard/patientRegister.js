@@ -1,41 +1,28 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useState } from "react";
 import api from "../../helpers/axiosServer/api";
 import { Form, Button } from "react-bootstrap";
-import "./front.css";      // Same shared CSS as other forms
+import "./front.css";   // Shared form styles
 import roleController from "../../helpers/roleLogin/roleLogin";
-import dates from "../../helpers/todayDate/getDate";
 
-function PatientEdit() {
-
+function RegisterPatient() {
     if (!roleController.isFrontoffice()) {
         window.location = "/login";
     }
 
-    const { patientId } = useParams();
-
     return (
         <div className="home">
-            <center><h1 className="heading">Edit Patient Details</h1></center>
+            <center><h1 className="heading">Register Patient</h1></center>
             <hr />
 
             <div className="form-card">
-                <MyForm patientId={patientId} />
+                <MyForm />
             </div>
         </div>
     );
 }
 
-function MyForm({ patientId }) {
-
+function MyForm() {
     const [inputs, setInputs] = useState({});
-
-    useEffect(() => {
-        api.get(`patients/${patientId}`)
-            .then(response => {
-                setInputs(response.data);
-            });
-    }, [patientId]);
 
     function handleChange(e) {
         const { name, value } = e.target;
@@ -45,15 +32,23 @@ function MyForm({ patientId }) {
     function handleSubmit(e) {
         e.preventDefault();
 
-        api.put(`patients/${patientId}`, inputs)
-            .then(() => {
-                alert("Patient details updated successfully!");
+        api.post(`patients`, inputs)
+            .then(response => {
+                alert("Patient registered successfully");
                 window.location = "/patientDisplay";
+            })
+            .catch(error => {
+                if (error.response) alert(error.response.data);
             });
     }
 
-    function goBack() {
-        window.location = "/patientDisplay";
+    // Get today's date in YYYY-MM-DD
+    function getToday() {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, "0");
+        const dd = String(today.getDate()).padStart(2, "0");
+        return `${yyyy}-${mm}-${dd}`;
     }
 
     return (
@@ -82,7 +77,7 @@ function MyForm({ patientId }) {
                     className="form-input"
                     type="date"
                     name="dateOfBirth"
-                    max={dates.getDate()}
+                    max={getToday()}
                     value={inputs.dateOfBirth || ""}
                     onChange={handleChange}
                     required
@@ -109,7 +104,7 @@ function MyForm({ patientId }) {
                 <label className="form-label">Phone Number</label>
                 <input
                     className="form-input"
-                    type="tel"
+                    type="text"
                     name="phoneNumber"
                     placeholder="Enter phone number"
                     maxLength={10}
@@ -122,10 +117,13 @@ function MyForm({ patientId }) {
             {/* Buttons */}
             <div className="form-buttons">
                 <Button className="btn-primary-form" type="submit">
-                    Update
+                    Register
                 </Button>
 
-                <Button className="btn-secondary-form" onClick={goBack}>
+                <Button
+                    className="btn-secondary-form"
+                    onClick={() => (window.location = "/")}
+                >
                     Cancel
                 </Button>
             </div>
@@ -134,4 +132,4 @@ function MyForm({ patientId }) {
     );
 }
 
-export default PatientEdit;
+export default RegisterPatient;
