@@ -1,45 +1,41 @@
-import { Link } from "react-router-dom"
-import { Button } from 'react-bootstrap'
-import { Card } from "react-bootstrap"
+import { Link } from "react-router-dom";
+import { Button, Card } from "react-bootstrap";
+import "./front.css";
 
-
-function Patient(props) {
-
-    console.log(props)
+function Patient({ details }) {
     return (
-        <>
-            <center>
-                <div >
+        <Card className="generic-card">
 
-                    <br />
-                    <Card className="text-center">
-                 
-                      <Card.Header>  <h3 > Full Name : {props.details.patientName}</h3></Card.Header>
-                      <Card.Body>
-                    <Button >
-                        <Link to={`/patientView/${props.details.patientId}`}>
-                            View Details
-                        </Link>
-                    </Button>
-                    {'  '}
+            <Card.Header className="generic-card-header">
+                Patient: {details.patientName}
+            </Card.Header>
 
-                    <Button variant="danger" >
-                        <Link to={`/PatientDelete/${props.details.patientId}`}>
-                            Delete Patient
-                        </Link>
-                    </Button>
-                    {'    '}
+            <Card.Body className="generic-card-body">
 
-                    <Button variant="secondary" >
-                        <Link to={`/billGenerate/${props.details.patientId}`}>
+                <Card.Title className="generic-card-title">
+                    Patient ID: {details.patientId}
+                </Card.Title>
+
+                <div className="generic-card-action">
+                    <Link to={`/patientView/${details.patientId}`}>
+                        <Button>View</Button>
+                    </Link>
+
+                    <Link to={`/PatientDelete/${details.patientId}`} className="btn btn-danger">
+                        Delete
+                    </Link>
+
+                    <Link to={`/billGenerate/${details.patientId}`}>
+                        <Button variant="secondary" >
                             Generate Bill
-                        </Link>
-                    </Button>
-                    </Card.Body>
-                    </Card>
+                        </Button>
+                    </Link>
                 </div>
-            </center>
-        </>
-    )
+
+            </Card.Body>
+
+        </Card>
+    );
 }
+
 export default Patient;

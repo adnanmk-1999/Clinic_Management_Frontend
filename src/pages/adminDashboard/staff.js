@@ -1,25 +1,36 @@
 import { Link } from "react-router-dom";
-import {Button, Card} from 'react-bootstrap'
-import './admin.css';
+import { Button, Card } from "react-bootstrap";
+import "./admin.css";
 
-function Staff(props){
-    return(
-      <>
-        <Card className="text">
-          <Card.Header> Staff Name : {props.details.staffName}</Card.Header>
-          <Card.Body>
-            <Card.Title> Staff Type : {props.details.staffType}</Card.Title>
-            <div className = "floatright">
-            <Button>
-            <Link className = "staffDetails" to = {`/staffdetails/${props.details.staffId}`}>View Details</Link>
-            </Button>
-            </div>
-          </Card.Body>
-        </Card>
-        <br/>
-        <br/>
-      </>
-    );
-  };
+function Staff({ details }) {
+  return (
+    <div className="list-card">
 
-  export default Staff;
+      <Card className="generic-card">
+
+        <Card.Header className="generic-card-header">
+          Staff: {details.staffName}
+        </Card.Header>
+
+        <Card.Body className="generic-card-body">
+
+          <Card.Title className="generic-card-title">
+            Type: {details.staffType}
+          </Card.Title>
+
+          {/* Right aligned button */}
+          <div className="generic-card-action">
+            <Link to={`/staffdetails/${details.staffId}`}>
+              <Button>View Details</Button>
+            </Link>
+          </div>
+
+        </Card.Body>
+
+      </Card>
+
+    </div>
+  );
+}
+
+export default Staff;

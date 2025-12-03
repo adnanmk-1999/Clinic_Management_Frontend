@@ -118,3 +118,181 @@
     font-weight: 500;
     color: #003b7a;
 }
+
+/* =========================================
+   LIST PAGE WRAPPER
+   ========================================= */
+.list-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* =========================================
+   SEARCH BAR
+   ========================================= */
+.list-search-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.list-search {
+    width: 100%;
+    padding: 12px 45px 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #bcd2f0;
+    font-size: 1rem;
+    outline: none;
+    background: #ffffff;
+    transition: 0.25s;
+}
+
+.list-search:focus {
+    border-color: #1a73e8;
+    box-shadow: 0 0 7px rgba(26, 115, 232, 0.35);
+}
+
+/* Search Icon */
+.list-search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+/* =========================================
+   LIST CARDS CONTAINER
+   ========================================= */
+.list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* =========================================
+   UNIVERSAL CARD WRAPPER (per item)
+   ========================================= */
+.list-card {
+    background: transparent;
+    padding: 0;
+}
+
+/* =========================================
+   MAIN CARD STYLE
+   ========================================= */
+.generic-card {
+    border-radius: 12px !important;
+    border: none;
+    overflow: hidden;
+    background: rgb(218, 218, 218);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.generic-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* =========================================
+   CARD HEADER (BLUE TOP BAR)
+   ========================================= */
+.generic-card-header {
+    background: #004aad !important;
+    color: #eeeeee !important;
+    font-size: 1.25rem;
+    font-weight: 600;
+    padding: 14px 18px !important;
+    text-align: left;
+}
+
+/* =========================================
+   CARD BODY
+   ========================================= */
+.generic-card-body {
+    background: #ffffff;
+    padding: 22px 25px;
+    text-align: left;
+}
+
+.generic-card-title {
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin-bottom: 18px;
+    color: #222;
+}
+
+/* =========================================
+   RIGHT-ALIGNED ACTION BUTTON
+   ========================================= */
+.generic-card-action {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.generic-card-action button {
+    border-radius: 8px;
+    padding: 6px 16px;
+    font-weight: 500;
+    background: #004aad !important;
+}
+
+.generic-card-action button {
+    border-radius: 8px;
+    padding: 6px 16px;
+    font-weight: 500;
+    background: #004aad !important;
+}
+
+
+.generic-card-action button:hover {
+    background: #1a73e8 !important;
+}
+
+/* =========================================
+   EMPTY LIST MESSAGE
+   ========================================= */
+.list-empty {
+    text-align: center;
+    color: #003b7a;
+    font-size: 1.2rem;
+    margin-top: 40px;
+    font-weight: 600;
+}
+
+.doctor-greeting {
+    margin: 25px auto 10px auto;
+    padding: 18px 25px;
+    background: linear-gradient(135deg, #004aad, #1a73e8);
+    color: white;
+    width: 85%;
+    max-width: 700px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+.doctor-greeting h2 {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.doctor-greeting h3 {
+    font-weight: 400;
+    opacity: 0.95;
+    margin: 0;
+}
+
+.generic-card-action .btn {
+    color: white !important;
+    text-decoration: none !important;
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    margin-left: 20px;
+}

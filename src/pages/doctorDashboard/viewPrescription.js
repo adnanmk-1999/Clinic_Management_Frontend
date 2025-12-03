@@ -1,50 +1,74 @@
-import { useState, useEffect } from "react"
-import axios from "axios";
-import Medicines from './medicineList'
-import "./doctor.css";
+import { useState, useEffect } from "react";
+import api from "../../helpers/axiosServer/api";
 import roleController from "../../helpers/roleLogin/roleLogin";
-
+import MedicineCard from "./medicines";
+import searchIcon from "../../assets/icons/search.svg";
+import "./doctor.css"; // common listing CSS
 
 function Prescription() {
 
   if (!roleController.isDoctor()) {
-    window.location = '/login'
+    window.location = "/login";
   }
-  //searching  doctor based on the email in local storage
-  const [medicine, setMedicine] = useState([]);
-  var today = new Date();
-  var dd = String(today.getDate()).padStart(2, '0');
-  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-  var yyyy = today.getFullYear();
 
-  today = yyyy + '-' + mm + '-' + dd;
-  console.log(today);
-  //viewing the patients for the current date
+  const [medicines, setMedicines] = useState([]);
+  const [search, setSearch] = useState("");
+
+  const today = new Date().toISOString().split("T")[0];
+
   useEffect(() => {
+    api.get(`/medicines/bydate/${today}`)
+      .then(res => setMedicines(res.data))
+      .catch(err => console.log(err));
+  }, [today]);
 
-    axios.get(`http://localhost:4000/medicines/bydate/${today}`) //gets data from api
-      .then(response => {
-        console.log('Promise fullfilled'); //if data recieved, output 
-        console.log(response);             //display output (responce)
-        setMedicine(response.data); //save only 'data' in response to the state
-      })
-  }, []);
+  const filtered = medicines.filter(med =>
+    med.medicineName.toLowerCase().includes(search.toLowerCase())
+  );
 
-  //mapping the appoinments
-  return (<>
+  return (
+    <div className="home">
 
-    <div>
-      <center><h2>Prescription</h2></center>
-      <div>{medicine.map(med =>
-        <div key={med.medicineid}>
-          <Medicines details={med} />
-        </div>)}
+      <center>
+        <h1 className="heading">Prescription</h1>
+      </center>
+      <hr />
+
+      <div className="list-page">
+
+        {/* Search bar */}
+        <div className="list-search-wrapper">
+          <input
+            type="text"
+            className="list-search"
+            placeholder="Search medicines..."
+            onChange={e => setSearch(e.target.value)}
+          />
+          <img src={searchIcon} alt="search" className="list-search-icon" />
+        </div>
+
+        {/* Empty List */}
+        {medicines.length === 0 ? (
+          <p className="list-empty">No prescriptions for today!</p>
+        ) : (
+          <>
+            {filtered.length === 0 ? (
+              <p className="list-empty">No matching prescriptions found!</p>
+            ) : (
+              <div className="list-container">
+                {filtered.map(med => (
+                  <div className="list-card" key={med.medicineid}>
+                    <MedicineCard details={med} />
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+
       </div>
     </div>
-
-  </>
-  )
-
+  );
 }
 
 export default Prescription;

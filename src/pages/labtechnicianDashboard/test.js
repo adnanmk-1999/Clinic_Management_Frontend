@@ -1,24 +1,32 @@
 import { Link } from "react-router-dom";
-import {Button, Card} from "react-bootstrap";
-import "./labtechnician.css"
+import { Card } from "react-bootstrap";
+import "./labtechnician.css";
 
-function Test(props){
-    return(
-      <>
-      <Card className="text">
-          <Card.Body>
-            <Card.Title><h4>Test Name : {props.details.testName}</h4></Card.Title>
-            <div className = "floatright">
-            <Button>
-            <Link className = "labrepBut" to = {`/testdetails/${props.details.testId}`}>View Details</Link>
-            </Button>
-            </div>
-          </Card.Body>
-        </Card>
-       <br/>
+function Test({ details }) {
+  return (
+    <Card className="generic-card">
 
-      </>
-    );
-  };
+      <Card.Header className="generic-card-header">
+        Test: {details.testName}
+      </Card.Header>
 
-  export default Test;
+      <Card.Body className="generic-card-body">
+
+        <Card.Title className="generic-card-title">
+          {details.description}
+        </Card.Title>
+
+        {/* Right-aligned button */}
+        <div className="generic-card-action">
+          <Link to={`/testdetails/${details.testId}`} className="btn btn-primary">
+            View Details
+          </Link>
+        </div>
+
+      </Card.Body>
+
+    </Card>
+  );
+}
+
+export default Test;

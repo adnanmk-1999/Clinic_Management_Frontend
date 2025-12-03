@@ -1,60 +1,71 @@
-import {useState, useEffect} from 'react';
-import axios from 'axios';
-import Test from './test';
-import roleController from '../../helpers/roleLogin/roleLogin';
+import { useState, useEffect } from "react";
+import api from "../../helpers/axiosServer/api";
+import roleController from "../../helpers/roleLogin/roleLogin";
+import Test from "./test";
+import "./labtechnician.css";
 
-function TestList(){
-    
-    if(!roleController.isLabtechnician()){
-      window.location = '/login'
-    }
+import searchIcon from "../../assets/icons/search.svg";
 
-    //Initialize the use state, to store data
-    const [tests, setTests] = useState([]);
+function TestList() {
 
-    //Initialize the use state for searching
-    const [search, setSearch] = useState('')
+  if (!roleController.isLabtechnician()) {
+    window.location = "/login";
+  }
 
-    //is loaded. eg: adds are only loaded after loading the components of page 
-    useEffect(() => {
-        
-        axios.get('http://localhost:4000/tests') //gets data from api
-          .then(response =>{
-              console.log('Promise fullfilled'); //if data recieved, output 
-              console.log(response);             //display output (responce)
-              setTests(response.data); //save only 'data' in response to the state
-          })
-    },[]);
-    
-    return(
-      <>
-      <div className = "cardsList">
-        <center><h1>Lab Test List</h1></center>
+  const [tests, setTests] = useState([]);
+  const [search, setSearch] = useState("");
 
-        &nbsp;&nbsp;<input type='text' 
-          name='search' placeholder='Search'
-          onChange={event =>setSearch(event.target.value)} /><br/><br/>
+  useEffect(() => {
+    api.get("/tests")
+      .then(res => setTests(res.data))
+      .catch(err => console.log(err));
+  }, []);
 
-        {tests.length === 0 ? (<h3>No Tests Available !</h3>) : ( 
-          <div className = "staffCards">
-          {tests.filter((test) => {
-              if (search === ''){
-                return test
-              }
-              else if (test.testName.toLowerCase().includes(search.toLowerCase())){
-                return test
-              }
-            }).map(test => 
-                <div key = {test.testId}>
-                  <Test details = {test}/>
-                </div>
-              )}
-          </div>
+  const filtered = tests.filter(test =>
+    test.testName.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <div className="home">
+
+      <center><h1 className="heading">Lab Tests</h1></center>
+      <hr />
+
+      <div className="list-page">
+
+        {/* Search */}
+        <div className="list-search-wrapper">
+          <input
+            type="text"
+            className="list-search"
+            placeholder="Search tests..."
+            onChange={e => setSearch(e.target.value)}
+          />
+          <img src={searchIcon} alt="search" className="list-search-icon" />
+        </div>
+
+        {/* No tests */}
+        {tests.length === 0 ? (
+          <p className="list-empty">No Tests Available!</p>
+        ) : (
+          <>
+            {/* Search returns no matches */}
+            {filtered.length === 0 ? (
+              <p className="list-empty">No matching tests found!</p>
+            ) : (
+              <div className="list-container">
+                {filtered.map(test => (
+                  <div className="list-card" key={test.testId}>
+                    <Test details={test} />
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
         )}
-        
       </div>
-      </>
-    );
-};
-  
+    </div>
+  );
+}
+
 export default TestList;

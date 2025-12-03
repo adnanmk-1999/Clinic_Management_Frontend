@@ -1,27 +1,36 @@
 import { Link } from "react-router-dom";
-import {Button, Card} from 'react-bootstrap'
-import './admin.css';
+import { Button, Card } from "react-bootstrap";
+import "./admin.css";
 
-function Doctor(props){
-    return(
-      <>
-      <div className = "staffcards">
-        <Card className="text">
-          <Card.Header> Doctor Name : {props.details.doctorName}</Card.Header>
-          <Card.Body>
-            <Card.Title> Specialization : {props.details.specialization}</Card.Title>
-            <div className="floatright">
-            <Button>
-            <Link className = "staffDetails" to = {`/doctordetails/${props.details.doctorId}`}>View Details</Link>
-            </Button>
-            </div>
-          </Card.Body>
-        </Card>
-        <br/>
-        <br/>
-        </div>
-      </>
-    );
-  };
+function Doctor({ details }) {
+  return (
+    <div className="list-card">
 
-  export default Doctor;
+      <Card className="generic-card">
+
+        <Card.Header className="generic-card-header">
+          Doctor: {details.doctorName}
+        </Card.Header>
+
+        <Card.Body className="generic-card-body">
+
+          <Card.Title className="generic-card-title">
+            Specialization: {details.specialization}
+          </Card.Title>
+
+          {/* Button Right */}
+          <div className="generic-card-action">
+            <Link to={`/doctordetails/${details.doctorId}`}>
+              <Button>View Details</Button>
+            </Link>
+          </div>
+
+        </Card.Body>
+
+      </Card>
+
+    </div>
+  );
+}
+
+export default Doctor;

@@ -42,7 +42,7 @@ import BillDisplay from "./pages/frontOfficeDashboard/billDisplay";
 //Doctor
 
 import Appointments from "./pages/doctorDashboard/appoinmentList";
-import PatientDetails from "./pages/doctorDashboard/PatientDetails";
+import PatientDetails from "./pages/doctorDashboard/patientDetails";
 import PrescriptionAdd from "./pages/doctorDashboard/prescription";
 import Tests from "./pages/doctorDashboard/viewTestDetails";
 import Labresult from "./pages/doctorDashboard/testDetails";

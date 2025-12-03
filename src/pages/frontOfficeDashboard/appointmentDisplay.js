@@ -1,60 +1,70 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import api from "../../helpers/axiosServer/api";
 import Appointment from "./appointment";
 import roleController from "../../helpers/roleLogin/roleLogin";
+import "./front.css";
 
+import searchIcon from "../../assets/icons/search.svg";
 
-//destructuring react to get only useState
 function AppointmentDisplay() {
 
-    if(!roleController.isFrontoffice()){
-        window.location = '/login'
-      }
+    if (!roleController.isFrontoffice()) {
+        window.location = "/login";
+    }
 
-    const [inputs, setInputs] = useState([])
-
-    //Initialize the use state for searching
-    const [search, setSearch] = useState('')
+    const [appointments, setAppointments] = useState([]);
+    const [search, setSearch] = useState("");
 
     useEffect(() => {
-        console.log('the use effect hook has been executed');
-        axios.get('http://localhost:4000/appointments')
-            .then(response => {
-                console.log('Promise fullfilled');
-                console.log(response);
+        api.get("/appointments")
+            .then(res => setAppointments(res.data))
+            .catch(err => console.log(err));
+    }, []);
 
-                setInputs(response.data)
-            })
-    }, [])
+    const filtered = appointments.filter(app =>
+        app.patientName?.toLowerCase().includes(search.toLowerCase())
+    );
 
-    return (<>
-        <div>
-            <center><h1>Appointments</h1></center><br/>
-
-            &nbsp;&nbsp;<input type='search' 
-                name='search' placeholder='Search'
-                onChange={event =>setSearch(event.target.value)} /><br/><br/>
-
-            {inputs.length === 0 ? (<h3>No Appointments !</h3>) : ( 
-                <div className = "staffCards">
-                    {inputs.filter((appointment) => {
-                        if (search === ''){
-                            return appointment
-                        }
-                        else if (appointment.patientName.toLowerCase().includes(search.toLowerCase())){
-                        return appointment
-                        }
-                    }).map(appointment => 
-                        <div key = {appointment.id}>
-                            <Appointment details = {appointment}/>
-                        </div>
-              )}
-      </div>
-      )}
-
+    return (
+        <div className="home">
+            <center><h1 className="heading">Appointments</h1></center>
             <hr />
+
+            <div className="list-page">
+
+                {/* Search Bar */}
+                <div className="list-search-wrapper">
+                    <input
+                        type="text"
+                        className="list-search"
+                        placeholder="Search appointments..."
+                        onChange={e => setSearch(e.target.value)}
+                    />
+                    <img src={searchIcon} alt="search" className="list-search-icon" />
+                </div>
+
+                {/* Empty states */}
+                {appointments.length === 0 ? (
+                    <p className="list-empty">No appointments found!</p>
+                ) : (
+                    <>
+                        {filtered.length === 0 ? (
+                            <p className="list-empty">No matching appointments found!</p>
+                        ) : (
+                            <div className="list-container">
+                                {filtered.map(app => (
+                                    <div className="list-card" key={app.id}>
+                                        <Appointment details={app} />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </>
+                )}
+
+            </div>
         </div>
-    </>);
+    );
 }
+
 export default AppointmentDisplay;

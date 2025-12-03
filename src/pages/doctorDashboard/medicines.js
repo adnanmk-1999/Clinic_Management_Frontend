@@ -1,25 +1,28 @@
+import { Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { Card } from "react-bootstrap";
-import "./labtechnician.css";
+import "./doctor.css";
 
-function LabReport({ details }) {
+function MedicineCard({ details }) {
+
   return (
     <Card className="generic-card">
 
+      {/* Header */}
       <Card.Header className="generic-card-header">
-        Test: {details.testName}
+        Medicine: {details.medicineName}
       </Card.Header>
 
+      {/* Body */}
       <Card.Body className="generic-card-body">
 
         <Card.Title className="generic-card-title">
-          {details.description}
+          Remarks: {details.comment}
         </Card.Title>
 
-        {/* Button Right */}
+        {/* Right-aligned button */}
         <div className="generic-card-action">
-          <Link to={`/reportdetails/${details.labReportId}`} className="btn btn-primary">
-            View Details
+          <Link to={`/priscdetails/${details.medicineid}`}>
+            <Button>View Details</Button>
           </Link>
         </div>
 
@@ -29,4 +32,4 @@ function LabReport({ details }) {
   );
 }
 
-export default LabReport;
+export default MedicineCard;

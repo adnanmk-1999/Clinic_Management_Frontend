@@ -12,7 +12,7 @@ function RegisterUser() {
     return (
 
         <div className="home">
-            <center><h1 className="heading">Login</h1></center>
+            <center><h1 className="heading">Register User</h1></center>
             <hr />
             <div className="form-card">
                 <MyForm />
