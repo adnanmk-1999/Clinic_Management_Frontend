@@ -1,74 +1,130 @@
-import React from 'react';
-import {useState, useEffect} from 'react';
-import axios from 'axios';
-import {useParams} from 'react-router-dom';
-//because we are using parameter in URL to catch the details
-import { useNavigate } from 'react-router-dom';
-import {Button, Card} from 'react-bootstrap'
-import roleController from '../../helpers/roleLogin/roleLogin';
-import './admin.css';
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import api from "../../helpers/axiosServer/api";
+import roleController from "../../helpers/roleLogin/roleLogin";
+import "./admin.css";
+import formatDate from "../../helpers/formatDate/formatData";
 
-function DoctorDetails(){
 
-  if(!roleController.isAdmin()){
-    window.location = '/login'
+function DoctorDetails() {
+
+  if (!roleController.isAdmin()) {
+    window.location = "/login";
   }
-    
-    //Initialize the use state, to store data
-    const [staff, setStaff] = useState([]);
-    //get id from URL for fetching
-    const {doctorId} = useParams();
-    console.log(doctorId)
-    const navigate = useNavigate();
 
-    useEffect(() => {
-        axios.get(`http://localhost:4000/doctors/${doctorId}`) //gets data from staff
-          .then(response =>{
-              console.log('Promise fullfilled');
-              console.log(response);             
-              setStaff(response.data);
-          })
-    },[doctorId]);
-    
-    return(
-      <>
-      <div className = "staffCards">
-        <center><h1>Doctor Details</h1></center>
-         <Card className="text">
-          <Card.Header></Card.Header>
-          <Card.Body>
-            <Card.Title>
-            <h4>Doctor Name : {staff.doctorName}</h4>
-            <h4>Specialization : {staff.specialization}</h4>
-            <h4>Qualification : {staff.qualification}</h4>
-            <h4>Gender : {staff.gender}</h4>
-            <h4>Date of Birth : {staff.dateOfBirth}</h4>
-            <h4>Address : {staff.address}</h4>
-            <h4>Date of Join : {staff.dateOfJoin}</h4>
-            <h4>Phone : {staff.phone}</h4>
-            <h4>Email : {staff.email}</h4>
-            <h4>Experience : {staff.experience}</h4>
-            </Card.Title>
-            <center><Button type ='button' id = 'edit' onClick = {() =>navigate(`/doctoredit/${staff.doctorId}`)}>Edit</Button>
-            &nbsp;&nbsp;
-            <Button variant = "danger" type = "button" id = "delete" 
-          onClick = {() => DeleteStaff(staff.doctorId)}>Delete</Button></center>
-          </Card.Body>
-        </Card>
-        <a className = 'staffDetails' href = '/doctorlist'>Go back</a>
+  const { doctorId } = useParams();
+  const [doctor, setDoctor] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    api
+      .get(`/doctors/${doctorId}`)
+      .then(res => setDoctor(res.data))
+      .catch(err => console.log(err));
+  }, [doctorId]);
+
+  function handleDelete(id) {
+    api
+      .delete(`/doctors/${id}`)
+      .then(() => {
+        window.location = "/doctorlist";
+      })
+      .catch(err => console.log(err));
+  }
+
+  if (!doctor) return null;
+
+  return (
+    <div className="home">
+      <center>
+        <h1 className="heading">Doctor Details</h1>
+      </center>
+      <hr />
+
+      <div className="details-wrapper">
+        <div className="details-card">
+
+          <div className="details-card-header">
+            {doctor.doctorName}
+          </div>
+
+          <div className="details-card-body">
+            <div className="details-row">
+              <span className="details-label">Specialization</span>
+              <span className="details-value">{doctor.specialization}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Qualification</span>
+              <span className="details-value">{doctor.qualification}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Gender</span>
+              <span className="details-value">{doctor.gender}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Date of Birth</span>
+              <span className="details-value">{formatDate(doctor.dateOfBirth)}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Address</span>
+              <span className="details-value">{doctor.address}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Date of Join</span>
+              <span className="details-value">{formatDate(doctor.dateOfJoin)}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Phone</span>
+              <span className="details-value">{doctor.phone}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Email</span>
+              <span className="details-value">{doctor.email}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Experience</span>
+              <span className="details-value">{doctor.experience}</span>
+            </div>
+
+            <div className="details-actions">
+
+              <Button
+                variant="primary"
+                onClick={() => navigate(`/doctoredit/${doctor.doctorId}`)}
+              >
+                Edit
+              </Button>
+
+              <Button
+                variant="danger"
+                onClick={() => handleDelete(doctor.doctorId)}
+              >
+                Delete
+              </Button>
+
+              <Button
+                variant="secondary"
+                onClick={() => navigate("/doctorlist")}
+              >
+                Back to List
+              </Button>
+
+            </div>
+          </div>
+
+        </div>
       </div>
-      </>
-    );
-};
-
-function DeleteStaff(doctorId){
-  axios.delete(`http://localhost:4000/doctors/${doctorId}`)
-    .then(response => {
-      console.log('Promise fullfilled');
-      console.log(response);  
-  })
-  window.location = '/doctorlist'; //after deletion goes to this page
+    </div>
+  );
 }
 
-  
 export default DoctorDetails;

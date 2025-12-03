@@ -1,76 +1,118 @@
-import React from 'react';
-import {Button, Card} from 'react-bootstrap';
-import {useState, useEffect} from 'react';
-import axios from 'axios';
-import {useParams} from 'react-router-dom';
-//because we are using parameter in URL to catch the details
-import { useNavigate } from 'react-router-dom';
-import roleController from '../../helpers/roleLogin/roleLogin';
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import api from "../../helpers/axiosServer/api";
+import roleController from "../../helpers/roleLogin/roleLogin";
+import "./labtechnician.css";
+import formatDate from "../../helpers/formatDate/formatData";
 
-function ReportDetails(){
+function ReportDetails() {
 
-    if(!roleController.isLabtechnician()){
-      window.location = '/login'
-    }
-    
-    //Initialize the use state, to store data
-    const [test, setTest] = useState([]);
-    //get id from URL for fetching
-    const {labReportId} = useParams();
-    console.log(labReportId)
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        axios.get(`http://localhost:4000/reports/${labReportId}`) //gets data from test
-          .then(response =>{
-              console.log('Promise fullfilled');
-              console.log(response);             
-              setTest(response.data);
-          })
-    },[labReportId]);
-    
-    const [patient, setPatient] = useState([]);
-    useEffect(() => {
-     setTimeout(() => {
-      axios.get(`http://localhost:4000/patients/${test.patientId}`) //gets data from test
-        .then(response =>{
-            console.log('Promise fullfilled');
-            console.log(response);             
-            setPatient(response.data);
-        })
-      },100);
-    },[test.patientId]);
-
-    function goToDetails(){
-      window.location = `/reportlist`;
+  if (!roleController.isLabtechnician()) {
+    window.location = "/login";
   }
 
-    return(
-      <>
-      <div>
-        <center><h1>Test Details</h1></center>
-        <div className = "cardsList">
-        <Card className="text">
-          <Card.Header></Card.Header>
-          <Card.Body>
-            <Card.Title>
-            <h4>Test Name : {test.testName}</h4>
-            <h4>Description : {test.description}</h4>
-            <h4>Patient Name : {patient.patientName}</h4>
-            <h4>Result Value : {test.resultValue}</h4>
-            <h4>Remarks : {test.remarks}</h4>
-            <h4>Date : {test.reportDate}</h4>
-            </Card.Title>
-            <center><Button variant="primary" type ='button' id = 'edit' onClick = {() =>navigate(`/reportedit/${test.labReportId}`)}>Edit</Button>
-        &nbsp;&nbsp;
-        <Button variant="danger" onClick = {goToDetails} >Cancel</Button></center>
-          </Card.Body>
-        </Card>
+  const { labReportId } = useParams();
+  const navigate = useNavigate();
+
+  const [report, setReport] = useState(null);
+  const [patient, setPatient] = useState(null);
+
+  // Fetch report details
+  useEffect(() => {
+    api
+      .get(`/reports/${labReportId}`)
+      .then(res => setReport(res.data))
+      .catch(err => console.log(err));
+  }, [labReportId]);
+
+  // Fetch patient AFTER report loads
+  useEffect(() => {
+    if (report?.patientId) {
+      api
+        .get(`/patients/${report.patientId}`)
+        .then(res => setPatient(res.data))
+        .catch(err => console.log(err));
+    }
+  }, [report]);
+
+  if (!report) return null;
+
+  return (
+    <div className="home">
+
+      <center>
+        <h1 className="heading">Lab Report Details</h1>
+      </center>
+      <hr />
+
+      <div className="details-wrapper">
+
+        <div className="details-card">
+
+          {/* Blue Title Bar */}
+          <div className="details-card-header">
+            {report.testName}
+          </div>
+
+          {/* Body */}
+          <div className="details-card-body">
+
+            <div className="details-row">
+              <span className="details-label">Test Name</span>
+              <span className="details-value">{report.testName}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Description</span>
+              <span className="details-value">{report.description}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Patient Name</span>
+              <span className="details-value">{patient?.patientName ? patient.patientName : "Not Available"}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Result Value</span>
+              <span className="details-value">{report.resultValue}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Remarks</span>
+              <span className="details-value">{report.remarks}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Report Date</span>
+              <span className="details-value">{formatDate(report.reportDate)}</span>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="details-actions">
+
+              <button
+                className="btn btn-primary"
+                onClick={() => navigate(`/reportedit/${report.labReportId}`)}
+              >
+                Edit
+              </button>
+
+              <button
+                className="btn btn-secondary"
+                onClick={() => navigate("/reportlist")}
+              >
+                Back to Reports
+              </button>
+
+            </div>
+
+          </div>
         </div>
-        <a href = '/reportlist'>Go back</a>
+
       </div>
-      </>
-    );
-};
+
+    </div>
+  );
+}
 
 export default ReportDetails;

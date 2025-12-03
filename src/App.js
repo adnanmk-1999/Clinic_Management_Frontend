@@ -35,7 +35,7 @@ import AppointmentDisplay from "./pages/frontOfficeDashboard/appointmentDisplay"
 import AppointmentView from "./pages/frontOfficeDashboard/appointmentView";
 import AppointmentDelete from "./pages/frontOfficeDashboard/appointmentDelete";
 import RegisterPatient from "./pages/frontOfficeDashboard/patientRegister";
-import PatientAppointment from "./pages/frontOfficeDashboard/PatientAppointment";
+import PatientAppointment from "./pages/frontOfficeDashboard/patientAppointment";
 import PatientSearch from "./pages/frontOfficeDashboard/patientSearch"
 import BillDisplay from "./pages/frontOfficeDashboard/billDisplay";
 

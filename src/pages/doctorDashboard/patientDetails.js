@@ -1,53 +1,99 @@
-import React from "react"
-import {useState,useEffect} from "react"
-import axios from "axios";
-import { useParams } from "react-router";
-import { useNavigate } from "react-router-dom";
-import { Card, Button } from 'react-bootstrap';
-import "./doctor.css";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import api from "../../helpers/axiosServer/api";
 import roleController from "../../helpers/roleLogin/roleLogin";
+import "./doctor.css";
+import formatDate from "../../helpers/formatDate/formatData";
 
-function PatientDetails(){
+function PatientDetails() {
 
-  if(!roleController.isDoctor()){
-    window.location = '/login'
+  if (!roleController.isDoctor()) {
+    window.location = "/login";
   }
-  //viewing the patient details 
-    const[patients, setPatients]=useState([]);
-    const {id}=useParams()
-    const navigate=useNavigate();
-    useEffect(()=>{
-        axios
-        .get(`http://localhost:4000/appointments/patients/${id}`)
-        .then(response=>{
-            console.log('Promise was fullfilled')
-            console.log(response)
-            setPatients(response.data)
-        })},[id])
-        
-    
-    return(
-        <div className="forDoctorPage">
-        <Card className="text">
-        <Card.Header>Patient Details</Card.Header>
-        <Card.Body>
-          <Card.Title> Patient Name :{patients.patientName}</Card.Title>
-          <Card.Title> DOB :{patients.dateOfBirth}</Card.Title>
-          <Card.Title> Address :{patients.address}</Card.Title>
-          <Card.Title> Phone Number:{patients.phoneNumber} </Card.Title>
-        <center>
-        <Button variant="primary" onClick={()=>navigate(`/prescriptionadd/${patients.patientId}`)}>ADD CONSULTATION</Button>&nbsp;&nbsp;
-        <Button variant="secondary" onClick={()=>navigate(`/patient/tests/${patients.patientId}`)}>VIEW LABRESULT</Button>&nbsp;&nbsp;
-        <Button variant="secondary" onClick={()=>navigate(`/viewpriscription`)}>VIEW PRESCRIPTION</Button>
-        </center>
-        </Card.Body>
-        <Card.Footer className="text-muted"></Card.Footer>
-        </Card>
-        <div><a href="/appointmentlist">Go Back</a></div>
+
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [patient, setPatient] = useState(null);
+
+  useEffect(() => {
+    api
+      .get(`/appointments/patients/${id}`)
+      .then(res => setPatient(res.data))
+      .catch(err => console.log(err));
+  }, [id]);
+
+  if (!patient) return null;
+
+  return (
+    <div className="home">
+      <center>
+        <h1 className="heading">Patient Details</h1>
+      </center>
+      <hr />
+
+      <div className="details-wrapper">
+        <div className="details-card">
+
+          {/* Blue header */}
+          <div className="details-card-header">
+            {patient.patientName}
+          </div>
+
+          <div className="details-card-body">
+
+            <div className="details-row">
+              <span className="details-label">Date of Birth</span>
+              <span className="details-value">{formatDate(patient.dateOfBirth)}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Address</span>
+              <span className="details-value">{patient.address}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Phone</span>
+              <span className="details-value">{patient.phoneNumber}</span>
+            </div>
+
+            {/* Action buttons */}
+            <div className="details-actions">
+
+              <button
+                className="btn btn-primary"
+                onClick={() => navigate(`/prescriptionadd/${patient.patientId}`)}
+              >
+                Add Consultation
+              </button>
+
+              <button
+                className="btn btn-secondary"
+                onClick={() => navigate(`/patient/tests/${patient.patientId}`)}
+              >
+                View Lab Results
+              </button>
+
+              <button
+                className="btn btn-secondary"
+                onClick={() => navigate(`/viewpriscription`)}
+              >
+                View Prescription
+              </button>
+
+              <button
+                className="btn btn-secondary"
+                onClick={() => navigate("/appointmentlist")}
+              >
+                Back to List
+              </button>
+
+            </div>
+
+          </div>
         </div>
+      </div>
+    </div>
+  );
+}
 
-      )
-    }
-
-   
 export default PatientDetails;

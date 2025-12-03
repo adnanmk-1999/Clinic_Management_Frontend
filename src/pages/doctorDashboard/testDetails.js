@@ -1,49 +1,87 @@
-import React from "react"
-import {useState,useEffect} from "react";
-import axios from "axios";
-import {useParams} from "react-router";
-import {Card} from 'react-bootstrap';
-import "./doctor.css";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import api from "../../helpers/axiosServer/api";
 import roleController from "../../helpers/roleLogin/roleLogin";
+import "./doctor.css";
 
-function TestDetails(){
+function TestDetails() {
 
-  if(!roleController.isDoctor()){
-    window.location = '/login'
+  if (!roleController.isDoctor()) {
+    window.location = "/login";
   }
 
-    const[tests, setTests]=useState([]);
-    const {id}=useParams()
-    //fetching report details
-    useEffect(()=>{
-        axios
-        .get(`http://localhost:4000/reports/${id}`)
-        .then(response=>{
-            console.log('Promise was fullfilled')
-            console.log(response)
-            setTests(response.data)
-        })},[id])
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [test, setTest] = useState(null);
 
+  useEffect(() => {
+    api
+      .get(`/reports/${id}`)
+      .then(res => setTest(res.data))
+      .catch(err => console.log(err));
+  }, [id]);
 
-       return(
-        <div className="forDoctorPage">
-        <Card className="text">
-        <center><Card.Header>Test Details</Card.Header></center>
-        <Card.Body>
-          <Card.Title> Test Name : {tests.testName}</Card.Title>
-          <Card.Title> Discription: {tests.description}</Card.Title>
-          <Card.Title> Desired Range :{tests.desiredRange}</Card.Title>
-          <Card.Title> Result Value :{tests.resultValue}</Card.Title>
-          <Card.Title> Remark :{tests.remarks} </Card.Title>
-        </Card.Body>
-        <Card.Footer className="text-muted"></Card.Footer>
-      </Card>
-      <div><a href="/appointmentlist">Go Back</a></div>
+  if (!test) return null;
+
+  return (
+    <div className="home">
+
+      <center>
+        <h1 className="heading">Test Report Details</h1>
+      </center>
+      <hr />
+
+      <div className="details-wrapper">
+
+        <div className="details-card">
+
+          {/* Blue header */}
+          <div className="details-card-header">
+            {test.testName}
+          </div>
+
+          <div className="details-card-body">
+
+            <div className="details-row">
+              <span className="details-label">Test Name</span>
+              <span className="details-value">{test.testName}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Description</span>
+              <span className="details-value">{test.description}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Desired Range</span>
+              <span className="details-value">{test.desiredRange}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Result Value</span>
+              <span className="details-value">{test.resultValue}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Remarks</span>
+              <span className="details-value">{test.remarks}</span>
+            </div>
+
+            <div className="details-actions">
+              <button
+                className="btn btn-secondary"
+                onClick={() => navigate("/appointmentlist")}
+              >
+                Back to List
+              </button>
+            </div>
+
+          </div>
+        </div>
+
       </div>
+    </div>
+  );
+}
 
-      )
-    
-    }
-
-   
 export default TestDetails;
