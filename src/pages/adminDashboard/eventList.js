@@ -1,62 +1,72 @@
-import {useState, useEffect} from 'react';
-import axios from 'axios';
-import Event from './event';
-import roleController from '../../helpers/roleLogin/roleLogin';
-import './admin.css';
+import { useState, useEffect } from "react";
+import api from "../../helpers/axiosServer/api";
+import roleController from "../../helpers/roleLogin/roleLogin";
+import Event from "./event";
+import "./admin.css";
 
+import searchIcon from "../../assets/icons/search.svg"
 
-function EventList(){
-    
-    if(!roleController.isAdmin()){
-      window.location = '/login'
-    }
+function EventList() {
+  if (!roleController.isAdmin()) {
+    window.location = "/login";
+  }
 
-    //Initialize the use state, to store data
-    const [staffs, setStaffs] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [search, setSearch] = useState("");
 
-    //Initialize the use state for searching
-    const [search, setSearch] = useState('')
+  useEffect(() => {
+    api.get("/events")
+      .then(res => setEvents(res.data))
+      .catch(err => console.log(err));
+  }, []);
 
-    //Only fetch the data after some time, after every other component
-    //is loaded. eg: adds are only loaded after loading the components of page 
-    useEffect(() => {
-        
-        axios.get('http://localhost:4000/events') //gets data from api
-          .then(response =>{
-              console.log('Promise fullfilled'); //if data recieved, output 
-              console.log(response);             //display output (responce)
-              setStaffs(response.data); //save only 'data' in response to the state
-          })
-    },[]);
-    
-    return(
-      <>
-      <div>
-        <center><h1>Event List</h1></center>
+  const filtered = events.filter(ev =>
+    ev.eventName.toLowerCase().includes(search.toLowerCase())
+  );
 
-        &nbsp;&nbsp;<input type='search' 
-          name='search' placeholder='Search'
-          onChange={event =>setSearch(event.target.value)} /><br/><br/>
+  return (
+    <div className="home">
+      <center>
+        <h1 className="heading">Event List</h1>
+      </center>
+      <hr />
 
-        {staffs.length === 0 ? (<h3>No Events Available !</h3>) : ( 
-          <div className = "staffCards">
-          {staffs.filter((staff) => {
-              if (search === ''){
-                return staff
-              }
-              else if (staff.eventName.toLowerCase().includes(search.toLowerCase())){
-                return staff
-              }
-            }).map(staff => 
-                  <div key = {staff.id}>
-                      <Event details = {staff}/>
+      <div className="list-page">
+
+        {/* Search Bar */}
+        <div className="list-search-wrapper">
+          <input
+            type="text"
+            className="list-search"
+            placeholder="Search events..."
+            onChange={e => setSearch(e.target.value)}
+          />
+          <img src={searchIcon} alt="search" className="list-search-icon" />
+        </div>
+
+        {/* Empty Message */}
+        {/* If the events array itself is empty */}
+        {events.length === 0 ? (
+          <p className="list-empty">No events available!</p>
+        ) : (
+          <>
+            {/* If search is applied but returns zero results */}
+            {filtered.length === 0 ? (
+              <p className="list-empty">No matching events found!</p>
+            ) : (
+              <div className="list-container">
+                {filtered.map(event => (
+                  <div className="list-card" key={event.id}>
+                    <Event details={event} />
                   </div>
-              )}
+                ))}
+              </div>
+            )}
+          </>
+        )}
       </div>
-      )}
-      </div>
-      </>
-    );
-};
-  
+    </div>
+  );
+}
+
 export default EventList;

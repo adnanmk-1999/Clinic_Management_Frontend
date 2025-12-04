@@ -1,52 +1,64 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import api from "../../helpers/axiosServer/api";
 import Bill from "./bill";
+import "./front.css";
+import searchIcon from "../../assets/icons/search.svg";
 
-//destructuring react to get only useState
 function BillDisplay() {
 
-    const [inputs, setInputs] = useState([])
-
-    //Initialize the use state for searching
-    const [search, setSearch] = useState('')
+    const [bills, setBills] = useState([]);
+    const [search, setSearch] = useState("");
 
     useEffect(() => {
-        console.log('the use effect hook has been executed');
-        axios.get('http://localhost:4000/bills')
-            .then(response => {
-                console.log('Promise fullfilled');
-                console.log(response);
+        api.get("/bills")
+            .then(res => setBills(res.data))
+            .catch(err => console.log(err));
+    }, []);
 
-                setInputs(response.data)
-            })
-    }, [])
+    const filtered = bills.filter(b =>
+        b.patientName?.toLowerCase().includes(search.toLowerCase())
+    );
 
-    return (<>
+    return (
+        <div className="home">
+            <center><h1 className="heading">Bills</h1></center>
+            <hr />
 
-        <center><h1>Bill List</h1></center>
+            <div className="list-page">
 
-        &nbsp;&nbsp;<input type='search' 
-            name='search' placeholder='Search'
-            onChange={event =>setSearch(event.target.value)} /><br/><br/>
+                {/* SEARCH BAR */}
+                <div className="list-search-wrapper">
+                    <input
+                        type="text"
+                        className="list-search"
+                        placeholder="Search bills..."
+                        onChange={(e) => setSearch(e.target.value)}
+                    />
+                    <img src={searchIcon} alt="search" className="list-search-icon" />
+                </div>
 
-        {inputs.length === 0 ? (<h3>No Bills Generated !</h3>) : ( 
-                <div className = "staffCards">
-                    {inputs.filter((bill) => {
-                        if (search === ''){
-                            return bill
-                        }
-                        else if (bill.patientName.toLowerCase().includes(search.toLowerCase())){
-                        return bill
-                        }
-                    }).map(bill => 
-                        <div key = {bill.id}>
-                            <Bill details = {bill}/>
-                        </div>
-              )}
-      </div>
-      )}
+                {/* Empty States */}
+                {bills.length === 0 ? (
+                    <p className="list-empty">No bills generated!</p>
+                ) : (
+                    <>
+                        {filtered.length === 0 ? (
+                            <p className="list-empty">No matching bills found!</p>
+                        ) : (
+                            <div className="list-container">
+                                {filtered.map(bill => (
+                                    <div className="list-card" key={bill.id}>
+                                        <Bill details={bill} />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </>
+                )}
 
-    </>);
+            </div>
+        </div>
+    );
 }
+
 export default BillDisplay;

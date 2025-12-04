@@ -1,34 +1,32 @@
-import { Link } from "react-router-dom"
-import { Button } from 'react-bootstrap'
-import { Card } from "react-bootstrap"
-import './front.css';
+import { Card, Button } from "react-bootstrap";
+import "./front.css";
 
-
-function Bill(props) {
-
-    console.log(props)
+function Bill({ details }) {
     return (
-        <>
-            <center>
-                <div >
-                    <div className="forFront" >
-                        <br />
-                        <Card className="text-center">
-                            <Card.Header>Bill Receipt</Card.Header>
-                            <Card.Body>
-                                <Card.Title> <h3 > Full Name : {props.details.patientName}</h3>  </Card.Title>
-                                <Card.Title> <h3>Amount to be paid : {props.details.billAmount} /-</h3>  </Card.Title>
-                                <Button type="button">
-                                        Print
-                                </Button>
-                            </Card.Body>
-                        </Card>
+        <Card className="generic-card">
 
-                    </div>
+            <Card.Header className="generic-card-header">
+                Bill Receipt
+            </Card.Header>
 
+            <Card.Body className="generic-card-body">
+
+                <Card.Title className="generic-card-title">
+                    Full Name: {details.patientName}
+                </Card.Title>
+
+                <Card.Title className="generic-card-title">
+                    Amount to Pay: ₹ {details.billAmount} /-
+                </Card.Title>
+
+                <div className="generic-card-action">
+                    <Button>Print</Button>
                 </div>
-            </center>
-        </>
-    )
+
+            </Card.Body>
+
+        </Card>
+    );
 }
+
 export default Bill;

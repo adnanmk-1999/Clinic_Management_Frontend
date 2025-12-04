@@ -1,76 +1,102 @@
-import {useState,useEffect} from "react"
-import axios from "axios";
-import Patients from './PatientList'
+import { useState, useEffect } from "react";
+import api from "../../helpers/axiosServer/api";
+import PatientList from "./patients";
 import roleController from "../../helpers/roleLogin/roleLogin";
+import "./doctor.css";
+import formatDate from "../../helpers/formatDate/formatData";
+import searchIcon from "../../assets/icons/search.svg";
 
-function Listall(){
+function Listall() {
 
-    if(!roleController.isDoctor()){
-        window.location = '/login'
-      }
-  //searching  doctor based on the email in local storage
-       const[doctor, setDoctor] = useState([]);
-
-       useEffect(()=>{
-            var email = localStorage.getItem('myemail');
-            console.log(email)
-            axios
-            .get(`http://localhost:4000/doctors/doctoremail/${email}`)
-            .then(response=>{
-              console.log('Promise was fullfilled')
-              console.log(response.data)
-              setDoctor(response.data[0])
-             })
-            },[]);  
-
-    console.log(doctor)
-    const[appoinments, setAppoinments]=useState([]);
-
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
-
-    today = yyyy + '-' + mm + '-' + dd;
-    console.log(today);
-     //viewing the patients for the current date
-    useEffect(()=>{
-
-        setTimeout(() => {
-           axios
-        .get(`http://localhost:4000/appointments/bydate/${today}`)
-        .then(response=>{
-            console.log('Promise was fullfilled')
-            console.log(response.data)
-            setAppoinments(response.data)
-        }) 
-        },[]);
-
-    },[]);
-  //mapping the appoinments
-        return(<>
-        { doctor === undefined ? (goBack()) :
-        (<div>
-        <center><h2>Appointments</h2></center>
-        <center><h2>Dr. {doctor.doctorName} </h2></center>
-        <h3>Date : {today}</h3>
-
-            <div>{appoinments.map(appoinment=>
-                    <div key={appoinment.id}> 
-                        <Patients details= {appoinment}/>
-                    </div>)}
-                </div>
-        </div>)
-        }
-                
-    </>
-    )
-
-    function goBack(){
-        alert("You are not registered ! contact admin. ");
-        window.location = '/'
+    if (!roleController.isDoctor()) {
+        window.location = "/login";
     }
-   
-   }
+
+    const [doctor, setDoctor] = useState(null);
+    const [appointments, setAppointments] = useState([]);
+    const [search, setSearch] = useState("");
+
+    // === Get doctor profile by email ===
+    useEffect(() => {
+        const email = localStorage.getItem("myemail");
+
+        api
+            .get(`/doctors/doctoremail/${email}`)
+            .then(res => setDoctor(res.data[0]))
+            .catch(() => setDoctor(undefined));
+    }, []);
+
+    const today = new Date().toISOString().split("T")[0];
+
+    // === Get appointments for today ===
+    useEffect(() => {
+        api
+            .get(`/appointments/bydate/${today}`)
+            .then(res => setAppointments(res.data))
+            .catch(err => console.log(err));
+    }, [today]);
+
+    if (doctor === undefined) {
+        alert("You are not registered! Contact admin.");
+        window.location = "/";
+    }
+
+    // === Filter appointments (by appointmentTime for now) ===
+    const filtered = appointments.filter(app =>
+        (app.appointmentTime || "")
+            .toLowerCase()
+            .includes(search.toLowerCase())
+    );
+
+    return (
+        <div className="home">
+            <center>
+                <h1 className="heading">Appointments</h1>
+            </center>
+            <hr />
+
+            {doctor && (
+                <div className="doctor-greeting">
+                    <h2>Dr. {doctor.doctorName}</h2>
+                    <h3>{formatDate(today)}</h3>
+                </div>
+            )}
+
+            <div className="list-page">
+
+                {/* Search bar */}
+                <div className="list-search-wrapper">
+                    <input
+                        type="text"
+                        className="list-search"
+                        placeholder="Search by appointment time..."
+                        onChange={e => setSearch(e.target.value)}
+                    />
+                    <img src={searchIcon} alt="search" className="list-search-icon" />
+                </div>
+
+                {/* Empty states */}
+                {appointments.length === 0 ? (
+                    <p className="list-empty">No appointments for today.</p>
+                ) : (
+                    <>
+                        {filtered.length === 0 ? (
+                            <p className="list-empty">No matching appointments found!</p>
+                        ) : (
+                            <div className="list-container">
+                                {filtered.map(app => (
+                                    <div className="list-card" key={app.id}>
+                                        <PatientList details={app} />
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </>
+                )}
+
+            </div>
+        </div>
+    );
+}
 
 export default Listall;

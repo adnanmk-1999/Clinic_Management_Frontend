@@ -6,21 +6,18 @@ import "./doctor.css";
 import roleController from "../../helpers/roleLogin/roleLogin";
 
 
-function Prescription(){
+function Prescription() {
 
-    if(!roleController.isDoctor()){
+    if (!roleController.isDoctor()) {
         window.location = '/login'
-      }
- //prescription form by calling medicine form and test form by passing patient id as parameter
-    const {id} = useParams();
+    }
+    //prescription form by calling medicine form and test form by passing patient id as parameter
+    const { id } = useParams();
     console.log(id)
-   return (
+    return (
         <>
-        <center><h1>Prescription</h1></center>
-        <br/>
-        <MedicineForm details = {id}/> 
-        <hr/>
-        <TestForm patient = {id}/>      
+            <MedicineForm details={id} />
+            <TestForm patient={id} />
         </>
     );
 }

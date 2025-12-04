@@ -1,59 +1,92 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import axios from "axios";
-import { useParams } from "react-router";
-import { useNavigate } from "react-router";
-import { Button } from 'react-bootstrap'
-import { Card } from "react-bootstrap";
-import './front.css'
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import api from "../../helpers/axiosServer/api";
 import roleController from "../../helpers/roleLogin/roleLogin";
+import "./front.css";
+import formatDate from "../../helpers/formatDate/formatData";
 
-//destructuring react to get only useState
+
 function PatientView() {
 
     if (!roleController.isFrontoffice()) {
-        window.location = '/login'
+        window.location = "/login";
     }
 
-    const [Inputs, setInputs] = useState([])
-    const { patientId } = useParams()
+    const { patientId } = useParams();
     const navigate = useNavigate();
 
+    const [patient, setPatient] = useState(null);
+
     useEffect(() => {
+        api
+            .get(`/patients/${patientId}`)
+            .then(res => setPatient(res.data))
+            .catch(err => console.log(err));
+    }, [patientId]);
 
-        axios.get(`http://localhost:4000/patients/${patientId}`)
-            .then(response => {
-                console.log('Promise fullfilled');
-                console.log(response);
+    if (!patient) return null;
 
-                setInputs(response.data)
-            })
-    }, [patientId])
+    return (
+        <div className="home">
 
-    return (<>
-        <div className="billCards">
-            <Card className="text-center">
-                <Card.Header>{Inputs.patientName}</Card.Header>
-                <Card.Body>
-                    <h3>Deatils of {Inputs.patientName}</h3>
-                    <Card.Title>
-                        <h4> First Name : {Inputs.patientName}</h4>
-                        <h4>Date of birth : {Inputs.dateOfBirth}</h4>
-                        <h4>Address : {Inputs.address}</h4>
-                        <h4>Phone Number : {Inputs.phoneNumber}</h4>
-                    </Card.Title>
+            <center>
+                <h1 className="heading">Patient Details</h1>
+            </center>
+            <hr />
 
+            <div className="details-wrapper">
 
-                    <Button variant="secondary" type="button"
-                        onClick={() => navigate(`/patientEdit/${Inputs.patientId}`)} >
-                        Edit Patient details
-                    </Button>
-                    {'   '}
+                <div className="details-card">
 
-                    <Button > <a href="/patientDisplay"> Go Back to Patient List</a></Button>
-                </Card.Body>
-            </Card>
+                    {/* Blue header */}
+                    <div className="details-card-header">
+                        {patient.patientName}
+                    </div>
+
+                    <div className="details-card-body">
+
+                        <div className="details-row">
+                            <span className="details-label">Full Name</span>
+                            <span className="details-value">{patient.patientName}</span>
+                        </div>
+
+                        <div className="details-row">
+                            <span className="details-label">Date of Birth</span>
+                            <span className="details-value">{formatDate(patient.dateOfBirth)}</span>
+                        </div>
+
+                        <div className="details-row">
+                            <span className="details-label">Address</span>
+                            <span className="details-value">{patient.address}</span>
+                        </div>
+
+                        <div className="details-row">
+                            <span className="details-label">Phone Number</span>
+                            <span className="details-value">{patient.phoneNumber}</span>
+                        </div>
+
+                        <div className="details-actions">
+                            <button
+                                className="btn btn-primary"
+                                onClick={() => navigate(`/patientEdit/${patient.patientId}`)}
+                            >
+                                Edit Patient Details
+                            </button>
+
+                            <button
+                                className="btn btn-secondary"
+                                onClick={() => navigate("/patientDisplay")}
+                            >
+                                Back to Patient List
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
         </div>
-    </>);
+    );
 }
+
 export default PatientView;

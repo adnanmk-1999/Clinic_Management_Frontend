@@ -1,66 +1,99 @@
-import React from 'react';
-import {useState, useEffect} from 'react';
-import axios from 'axios';
-import {useParams} from 'react-router-dom';
-import {Button, Card} from 'react-bootstrap'
-import roleController from '../../helpers/roleLogin/roleLogin';
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import api from "../../helpers/axiosServer/api";
+import roleController from "../../helpers/roleLogin/roleLogin";
+import "./labtechnician.css";
 
-//because we are using parameter in URL to catch the details
-import { useNavigate } from 'react-router-dom';
+function TestDetails() {
 
-function TestDetails(){
+  if (!roleController.isLabtechnician()) {
+    window.location = "/login";
+  }
 
-    if(!roleController.isLabtechnician()){
-      window.location = '/login'
+  const { testId } = useParams();
+  const navigate = useNavigate();
+
+  const [test, setTest] = useState(null);
+  const [patient, setPatient] = useState(null);
+
+  // === Fetch test information ===
+  useEffect(() => {
+    api
+      .get(`/tests/${testId}`)
+      .then(res => setTest(res.data))
+      .catch(err => console.log(err));
+  }, [testId]);
+
+  // === Fetch patient info once test is known ===
+  useEffect(() => {
+    if (test?.patientId) {
+      api
+        .get(`/patients/${test.patientId}`)
+        .then(res => setPatient(res.data))
+        .catch(err => console.log(err));
     }
-    
-    //Initialize the use state, to store data
-    const [test, setTest] = useState([]);
-    //get id from URL for fetching
-    const {testId} = useParams();
-    console.log(testId)
-    const navigate = useNavigate();
+  }, [test]);
 
-    useEffect(() => {
-        axios.get(`http://localhost:4000/tests/${testId}`) //gets data from test
-          .then(response =>{
-              console.log('Promise fullfilled');
-              console.log(response);             
-              setTest(response.data);
-          })
-    },[testId]);
-    
-    const [patient, setPatient] = useState([]);
-    useEffect(() => {
-     setTimeout(() => {
-      axios.get(`http://localhost:4000/patients/${test.patientId}`) //gets data from test
-        .then(response =>{
-            console.log('Promise fullfilled');
-            console.log(response);             
-            setPatient(response.data);
-        })
-      },100);
-  },[test.patientId]);
-    
-    return(
-      <>
-      <div className = "cardsList">
-        <Card className="text">
-          <Card.Header></Card.Header>
-          <Card.Body>
-            <Card.Title>
-            <h4>Test Name : {test.testName}</h4>
-            <h4>Description : {test.description}</h4>
-            <h4>Patient Name : {patient.patientName}</h4>
-            </Card.Title>
-            <center><Button variant = "primary" type ='button' onClick = {() =>navigate(`/generatereport/${test.testId}`)}>Begin test</Button></center>
-          </Card.Body>
-        </Card>
+  if (!test) return null;
 
+  return (
+    <div className="home">
+      <center>
+        <h1 className="heading">Test Details</h1>
+      </center>
+      <hr />
+
+      <div className="details-wrapper">
+
+        <div className="details-card">
+
+          <div className="details-card-header">
+            {test.testName}
+          </div>
+
+          <div className="details-card-body">
+
+            <div className="details-row">
+              <span className="details-label">Test Name</span>
+              <span className="details-value">{test.testName}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Description</span>
+              <span className="details-value">{test.description}</span>
+            </div>
+
+            <div className="details-row">
+              <span className="details-label">Patient Name</span>
+              <span className="details-value">
+                {patient?.patientName ? patient.patientName : "Not Available"}
+              </span>
+            </div>
+
+
+            <div className="details-actions">
+
+              <button
+                className="btn btn-primary"
+                onClick={() => navigate(`/generatereport/${test.testId}`)}
+              >
+                Begin Test
+              </button>
+
+              <button
+                className="btn btn-secondary"
+                onClick={() => navigate("/testList")}
+              >
+                Back to Test List
+              </button>
+
+            </div>
+
+          </div>
+        </div>
       </div>
-       <a href = '/testList'>Go back to test list</a>
-      </>
-    );
-};
+    </div>
+  );
+}
 
 export default TestDetails;

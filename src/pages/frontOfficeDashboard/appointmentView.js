@@ -1,70 +1,98 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import axios from "axios";
-import { useParams } from "react-router";
-import { useNavigate } from "react-router";
-import { Button, Card } from 'react-bootstrap'
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import api from "../../helpers/axiosServer/api";
 import roleController from "../../helpers/roleLogin/roleLogin";
+import "./front.css";
+import formatDate from "../../helpers/formatDate/formatData";
 
-//destructuring react to get only useState
 function AppointmentView() {
 
     if (!roleController.isFrontoffice()) {
-        window.location = '/login'
+        window.location = "/login";
     }
 
-    const [Inputs, setInputs] = useState([])
-    const { id } = useParams()
+    const { id } = useParams();
     const navigate = useNavigate();
 
+    const [appointment, setAppointment] = useState(null);
+    const [doctor, setDoctor] = useState(null);
+
+    // === Get appointment ===
     useEffect(() => {
+        api
+            .get(`/appointments/${id}`)
+            .then(res => setAppointment(res.data))
+            .catch(err => console.log(err));
+    }, [id]);
 
-        axios.get(`http://localhost:4000/appointments/${id}`)
-            .then(response => {
-                console.log('Promise fullfilled');
-                console.log(response);
-
-                setInputs(response.data)
-            })
-    }, [id])
-
-    const [Input, setInput] = useState([])
+    // === Get doctor details after appointment loads ===
     useEffect(() => {
+        if (!appointment?.doctorId) return;
 
-        setTimeout(() => {
-            axios.get(`http://localhost:4000/doctors/${Inputs.doctorId}`)
-                .then(response => {
-                    console.log('Promise fullfilled');
-                    console.log(response);
+        api
+            .get(`/doctors/${appointment.doctorId}`)
+            .then(res => setDoctor(res.data))
+            .catch(err => console.log(err));
 
-                    setInput(response.data)
-                    console.log(Input.doctorName)
-                })
-        }, 100);
-    }, [Inputs.doctorId]);
+    }, [appointment?.doctorId]);
+
+    if (!appointment || !doctor) return null;
 
 
+    return (
+        <div className="home">
 
-    return (<>
-        <div>
-            <Card className="text-center">
-                <Card.Header>{Inputs.patientName}</Card.Header>
-                <Card.Body>
-                    <Card.Title>
-                        <h3>Details of Appointments</h3>
-                        <hr />
+            <center>
+                <h1 className="heading">Appointment Details</h1>
+            </center>
+            <hr />
 
-                        <h4> Full Name: {Inputs.patientName}</h4>
-                        <h4>Doctor: {Input.doctorName}</h4>
-                        <h4>Appointment Date: {Inputs.appointmentDate}</h4>
-                        <h4>Time: {Inputs.appointmentTime}</h4>
-                    </Card.Title>
+            <div className="details-wrapper">
 
-                    <center><Button onClick={() => navigate(`/appointmentDisplay`)} >  Go Back to Appointment List</Button></center>
+                <div className="details-card">
 
-                </Card.Body>
-            </Card>
+                    {/* Blue header */}
+                    <div className="details-card-header">
+                        Appointment for {appointment.patientName}
+                    </div>
+
+                    <div className="details-card-body">
+
+                        <div className="details-row">
+                            <span className="details-label">Patient Name</span>
+                            <span className="details-value">{appointment.patientName}</span>
+                        </div>
+
+                        <div className="details-row">
+                            <span className="details-label">Doctor</span>
+                            <span className="details-value">Dr. {doctor.doctorName}</span>
+                        </div>
+
+                        <div className="details-row">
+                            <span className="details-label">Appointment Date</span>
+                            <span className="details-value">{formatDate(appointment.appointmentDate)}</span>
+                        </div>
+
+                        <div className="details-row">
+                            <span className="details-label">Time</span>
+                            <span className="details-value">{appointment.appointmentTime}</span>
+                        </div>
+
+                        <div className="details-actions">
+                            <button
+                                className="btn btn-secondary"
+                                onClick={() => navigate("/appointmentDisplay")}
+                            >
+                                Back to Appointments
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
         </div>
-    </>);
+    );
 }
+
 export default AppointmentView;

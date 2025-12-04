@@ -1,3 +1,93 @@
-.staffCards{
+.heading {
+    color: #003b9b;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.home hr {
+    height: 10px;
+    background: #005be5;
+    margin-bottom: 30px;
+}
+
+.pretty-text {
+    font-size: 1.1rem;
+    line-height: 1.75;
+    color: #313131;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.staffCards {
     margin: 0px 10% 0px 10%;
+}
+
+/* Outer wrapper */
+.event-card-wrapper {
+    margin: 25px auto;
+    width: 80%;
+}
+
+/* Card */
+.event-card {
+    border-radius: 12px !important;
+    border: none;
+    overflow: hidden;
+    background: rgb(218, 218, 218);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* Blue header */
+.event-header {
+    background: #004aad !important;
+    color: rgb(238, 238, 238) !important;
+    font-size: 1.25rem;
+    font-weight: 600;
+    padding: 14px 18px !important;
+    text-align: left;
+    /* LEFT aligned */
+}
+
+/* White content body */
+.event-body {
+    background: #ffffff !important;
+    color: #333;
+    padding: 22px 25px !important;
+    text-align: left;
+    /* LEFT aligned */
+}
+
+/* Description text */
+.event-title {
+    font-size: 1.1rem !important;
+    font-weight: 500;
+    margin-bottom: 16px;
+    color: #222;
+}
+
+/* Date row */
+.event-date {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    color: #333;
+    background: #ceecf6;
+    padding: 10px 14px;
+    border-radius: 8px;
+    width: fit-content;
+}
+
+/* Calendar icon */
+.event-date-icon {
+    width: 20px;
+    height: 20px;
+    opacity: 0.8;
 }

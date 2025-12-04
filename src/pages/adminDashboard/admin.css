@@ -1,7 +1,330 @@
-.staffCards{
+.staffCards {
     margin: 0px 10% 0px 10%;
 }
 
-.floatright{
-    float : right
+.floatright {
+    float: right
+}
+
+/* Page container */
+.form-page-container {
+    max-width: 650px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+/* Page heading */
+.form-page-heading {
+    color: #003b9b;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.form-page-hr {
+    height: 8px;
+    background: #005be5;
+    border: none;
+    margin-bottom: 30px;
+}
+
+/* Card Container */
+.form-card {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(6px);
+    padding: 35px;
+    border-radius: 15px;
+    box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 80, 160, 0.2);
+}
+
+/* Labels */
+.form-label {
+    font-weight: 600;
+    color: #003b7a;
+    margin-bottom: 6px;
+    display: block;
+}
+
+/* Inputs */
+.form-input,
+.form-select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #bcd2f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.2s;
+    background: white;
+}
+
+.form-input:focus,
+.form-select:focus {
+    border-color: #1a73e8;
+    box-shadow: 0 0 6px rgba(26, 115, 232, 0.4);
+}
+
+/* Buttons */
+.form-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn-primary-form {
+    background-color: #0053d6 !important;
+    border: none !important;
+    padding: 10px 25px !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+}
+
+.btn-secondary-form {
+    background-color: #d9534f !important;
+    border: none !important;
+    padding: 10px 25px !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+}
+
+/* Small description note */
+.input-note {
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.radio-group {
+    display: flex;
+    gap: 25px;
+}
+
+.radio-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+    color: #003b7a;
+}
+
+/* =========================================
+   LIST PAGE WRAPPER
+   ========================================= */
+.list-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* =========================================
+   SEARCH BAR
+   ========================================= */
+.list-search-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.list-search {
+    width: 100%;
+    padding: 12px 45px 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #bcd2f0;
+    font-size: 1rem;
+    outline: none;
+    background: #ffffff;
+    transition: 0.25s;
+}
+
+.list-search:focus {
+    border-color: #1a73e8;
+    box-shadow: 0 0 7px rgba(26, 115, 232, 0.35);
+}
+
+/* Search Icon */
+.list-search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+/* =========================================
+   LIST CARDS CONTAINER
+   ========================================= */
+.list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* =========================================
+   UNIVERSAL CARD WRAPPER (per item)
+   ========================================= */
+.list-card {
+    background: transparent;
+    padding: 0;
+}
+
+/* =========================================
+   MAIN CARD STYLE
+   ========================================= */
+.generic-card {
+    border-radius: 12px !important;
+    border: none;
+    overflow: hidden;
+    background: rgb(218, 218, 218);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.generic-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+/* =========================================
+   CARD HEADER (BLUE TOP BAR)
+   ========================================= */
+.generic-card-header {
+    background: #004aad !important;
+    color: #eeeeee !important;
+    font-size: 1.25rem;
+    font-weight: 600;
+    padding: 14px 18px !important;
+    text-align: left;
+}
+
+/* =========================================
+   CARD BODY
+   ========================================= */
+.generic-card-body {
+    background: #ffffff;
+    padding: 22px 25px;
+    text-align: left;
+}
+
+.generic-card-title {
+    font-size: 1.05rem;
+    font-weight: 500;
+    margin-bottom: 18px;
+    color: #222;
+}
+
+/* =========================================
+   RIGHT-ALIGNED ACTION BUTTON
+   ========================================= */
+.generic-card-action {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.generic-card-action button {
+    border-radius: 8px;
+    padding: 6px 16px;
+    font-weight: 500;
+    background: #004aad !important;
+}
+
+.generic-card-action button:hover {
+    background: #1a73e8 !important;
+}
+
+/* =========================================
+   EMPTY LIST MESSAGE
+   ========================================= */
+.list-empty {
+    text-align: center;
+    color: #003b7a;
+    font-size: 1.2rem;
+    margin-top: 40px;
+    font-weight: 600;
+}
+
+/* ========== DETAILS PAGE LAYOUT ========== */
+.details-wrapper {
+    max-width: 900px;
+    margin: 0 auto 40px auto;
+    padding: 0 20px 40px;
+}
+
+/* Main card */
+.details-card {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(6px);
+    border-radius: 15px;
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 80, 160, 0.15);
+    overflow: hidden;
+}
+
+/* Header bar (blue) */
+.details-card-header {
+    background: #004aad;
+    color: #f5f7ff;
+    padding: 16px 22px;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+/* Body */
+.details-card-body {
+    background: #ffffff;
+    padding: 22px 26px 24px;
+}
+
+/* Each row: label + value */
+.details-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 10px;
+}
+
+.details-label {
+    font-weight: 600;
+    color: #003b7a;
+    min-width: 140px;
+}
+
+.details-value {
+    color: #333333;
+    text-align: right;
+    flex: 1;
+}
+
+/* Actions (buttons row) */
+.details-actions {
+    margin-top: 24px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Better spacing on small screens */
+@media (max-width: 600px) {
+    .details-card-body {
+        padding: 18px 16px 20px;
+    }
+
+    .details-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .details-value {
+        text-align: left;
+    }
+
+    .details-actions {
+        justify-content: flex-start;
+    }
 }

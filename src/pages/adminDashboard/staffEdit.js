@@ -1,155 +1,224 @@
-import {useState, useEffect} from 'react';
-import axios from 'axios';
-import { Form, Button } from 'react-bootstrap';
-import {useParams} from 'react-router-dom';
-import roleController from '../../helpers/roleLogin/roleLogin';
-import dates from '../../helpers/todayDate/getDate';
+import { useState, useEffect } from "react";
+import api from "../../helpers/axiosServer/api";
+import { Form, Button } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+import roleController from "../../helpers/roleLogin/roleLogin";
+import dates from "../../helpers/todayDate/getDate";
+import "./admin.css";
 
-function StaffEdit(){
-    const {staffId} = useParams();
+function StaffEdit() {
+    if (!roleController.isAdmin()) {
+        window.location = "/login";
+    }
+
+    const { staffId } = useParams();
+
     return (
-        <>
-        <center><h1>Edit Staff</h1></center>
-        <MyForm staffId = {staffId}/>
-        </>
+        <div className="home">
+            <center><h1 className="heading">Edit Staff</h1></center>
+            <hr />
+
+            <div className="form-card">
+                <MyForm staffId={staffId} />
+            </div>
+        </div>
     );
 }
 
-function MyForm(props){
-    
-    if(!roleController.isAdmin()){
-        window.location = '/login'
-      }
-
+function MyForm({ staffId }) {
     const [inputs, setInputs] = useState({});
-        //To get the staff details from the staff id
-        useEffect(() => {
-            axios.get(`http://localhost:4000/staffs/${props.staffId}`) //gets data from staff
-              .then(response =>{
-                  console.log('Promise fullfilled');
-                  console.log(response); 
-                  setInputs(response.data);            
-              })
-        },[props.staffId]);
 
-    function handleChange(event){
-        const name = event.target.name;
-        const value = event.target.value;
-        setInputs(values => ({...values, [name] : value}))
-    };
+    useEffect(() => {
+        api.get(`/staffs/${staffId}`)
+            .then(response => setInputs(response.data))
+            .catch(err => console.log(err));
+    }, [staffId]);
 
-    function handleSubmit(event){
-        event.preventDefault();
-        console.log(inputs);
-
-        axios.put(`http://localhost:4000/staffs/${props.staffId}`, inputs)
-            .then(response => { 
-                    console.log('Promise Fullfilled');
-                    console.log(response);
-                    alert('Staff details updated !')
-                    window.location = '/stafflist'
-            })
-    };
-
-    function goToDetails(){
-        window.location = `/staffdetails/${props.staffId}`;
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setInputs(prev => ({ ...prev, [name]: value }));
     }
 
-    return(
-        <>
-        <div className="form">
+    function handleSubmit(e) {
+        e.preventDefault();
 
-        <Form onSubmit = {handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicText">
-                <Form.Label>Full Name</Form.Label>
-                <input className="input" type = "text" name = "staffName" placeholder = "Enter full name"
-                        value = {inputs.staffName || ''} onChange = {handleChange} 
-                        minLength="3" maxLength="15"
-                        required></input>
+        api.put(`/staffs/${staffId}`, inputs)
+            .then(() => {
+                alert("Staff details updated!");
+                window.location = "/stafflist";
+            })
+            .catch(err => console.log(err));
+    }
+
+    function goToDetails() {
+        window.location = `/staffdetails/${staffId}`;
+    }
+
+    return (
+        <Form onSubmit={handleSubmit}>
+
+            {/* Full Name */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Full Name</label>
+                <input
+                    className="form-input"
+                    type="text"
+                    name="staffName"
+                    placeholder="Enter full name"
+                    value={inputs.staffName || ""}
+                    minLength={3}
+                    maxLength={30}
+                    required
+                    onChange={handleChange}
+                />
             </Form.Group>
 
-            <Form.Group className="mb-3">
-            <Form.Label>Staff type</Form.Label>
-                <select name = 'staffType' className="bld" value = {inputs.staffType || ''} onChange = {handleChange} required>
-                    <option value = 'admin' onChange = {handleChange}>Admin</option>
-                    <option value = 'doctor' onChange = {handleChange}>Doctor</option>
-                    <option value = 'frontOffice' onChange = {handleChange}>Front Office</option>
-                    <option value = 'labTechnician' onChange = {handleChange}>Lab Technician</option>
-                    </select>
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicText">
-            <Form.Label>Qualification</Form.Label>
-            <input className="input" type = "text" name = "qualification" placeholder = "Enter qualification"
-                        value = {inputs.qualification || ''} onChange = {handleChange} 
-                        required></input>
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicText">
-            <Form.Label>Gender</Form.Label><br/>
-                <select name = 'gender' className="bld" value = {inputs.gender || ''} onChange = {handleChange}>
-                    <option value = 'male' onChange = {handleChange}>Male</option>
-                    <option value = 'female' onChange = {handleChange}>Female</option>
+            {/* Staff Type */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Staff Type</label>
+                <select
+                    name="staffType"
+                    className="form-select"
+                    value={inputs.staffType || ""}
+                    onChange={handleChange}
+                    required
+                >
+                    <option value="">Choose one</option>
+                    <option value="admin">Admin</option>
+                    <option value="doctor">Doctor</option>
+                    <option value="frontOffice">Front Office</option>
+                    <option value="labTechnician">Lab Technician</option>
                 </select>
-
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicDate">
-            <Form.Label>Date of Birth</Form.Label>
-            <input className="input" type = "date" name = "dateOfBirth"
-                        value = {inputs.dateOfBirth || ''} onChange = {handleChange} max = {dates.childLabour()}
-                        min="1961-01-01" max="2003-12-31"
-                        required></input>
+            {/* Qualification */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Qualification</label>
+                <input
+                    className="form-input"
+                    type="text"
+                    name="qualification"
+                    placeholder="Enter qualification"
+                    value={inputs.qualification || ""}
+                    required
+                    onChange={handleChange}
+                />
             </Form.Group>
 
-
-            <Form.Group className="mb-3" controlId="formBasicText">
-            <Form.Label>Address</Form.Label>
-            <input className="input" type = "text" name = "address" placeholder = "Enter Address"
-                        value = {inputs.address || ''} onChange = {handleChange} 
-                        maxLength="30"
-                        required></input>
+            {/* Gender */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Gender</label>
+                <select
+                    name="gender"
+                    className="form-select"
+                    value={inputs.gender || ""}
+                    onChange={handleChange}
+                >
+                    <option value="">Choose one</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                </select>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicDate">
-            <Form.Label>Date of Join</Form.Label>
-            <input className="input" type = "date" name = "dateOfJoin"
-                        value = {inputs.dateOfJoin || ''} onChange = {handleChange} max = {dates.getDate()}
-                        required></input>
+            {/* Date of Birth */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Date of Birth</label>
+                <input
+                    className="form-input"
+                    type="date"
+                    name="dateOfBirth"
+                    value={inputs.dateOfBirth || ""}
+                    max={dates.childLabour()}
+                    required
+                    onChange={handleChange}
+                />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicNumber">
-            <Form.Label>Phone</Form.Label>
-            <input className="input" type = "tel" name = "phone" placeholder = "Enter phone number"
-                        value = {inputs.phone || ''} onChange = {handleChange} 
-                        required></input>
-            </Form.Group>
-            
-            <Form.Group className="mb-3" controlId="formBasicText">
-            <Form.Label>Email</Form.Label>
-            <input className="input" type = "email" name = "email" placeholder = "Enter email"
-                        value = {inputs.email || ''} onChange = {handleChange} 
-                        required></input>
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formBasicText">
-            <Form.Label>Experience</Form.Label>
-            <input className="input" type = "text" name = "experience" placeholder = "Enter experience"
-                        value = {inputs.experience || ''} onChange = {handleChange} 
-                        required></input>
+            {/* Address */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Address</label>
+                <input
+                    className="form-input"
+                    type="text"
+                    name="address"
+                    placeholder="Enter address"
+                    value={inputs.address || ""}
+                    maxLength={50}
+                    required
+                    onChange={handleChange}
+                />
             </Form.Group>
 
-            <center>
-            <Button variant="primary" type="submit">Submit</Button>&nbsp;&nbsp;
-            <Button variant="danger" onClick = {goToDetails} >Cancel</Button>
-            </center>
+            {/* Date of Join */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Date of Join</label>
+                <input
+                    className="form-input"
+                    type="date"
+                    name="dateOfJoin"
+                    value={inputs.dateOfJoin || ""}
+                    max={dates.getDate()}
+                    required
+                    onChange={handleChange}
+                />
+            </Form.Group>
+
+            {/* Phone */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Phone</label>
+                <input
+                    className="form-input"
+                    type="tel"
+                    name="phone"
+                    placeholder="Enter phone number"
+                    value={inputs.phone || ""}
+                    maxLength={10}
+                    required
+                    onChange={handleChange}
+                />
+            </Form.Group>
+
+            {/* Email */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Email</label>
+                <input
+                    className="form-input"
+                    type="email"
+                    name="email"
+                    placeholder="Enter email"
+                    value={inputs.email || ""}
+                    required
+                    onChange={handleChange}
+                />
+            </Form.Group>
+
+            {/* Experience */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Experience</label>
+                <input
+                    className="form-input"
+                    type="text"
+                    name="experience"
+                    placeholder="Enter experience"
+                    value={inputs.experience || ""}
+                    required
+                    onChange={handleChange}
+                />
+            </Form.Group>
+
+            {/* Buttons */}
+            <div className="form-buttons">
+                <Button className="btn-primary-form" type="submit">
+                    Update
+                </Button>
+
+                <Button className="btn-secondary-form" onClick={goToDetails}>
+                    Cancel
+                </Button>
+            </div>
 
         </Form>
-
-
-        </div>
-        </>
     );
+}
 
-};
 export default StaffEdit;

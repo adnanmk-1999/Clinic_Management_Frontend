@@ -1,27 +1,32 @@
 import { Link } from "react-router-dom";
-import {Button, Card} from "react-bootstrap";
-import "./labtechnician.css"
+import { Card } from "react-bootstrap";
+import "./labtechnician.css";
 
-function LabReport(props){
-    return(
-      <>
-      <div className = "cardsList">
-        <Card className="text">
-          <Card.Body>
-            <Card.Title><h4>Test Name : {props.details.testName}</h4></Card.Title>
-            <div className = "floatright">
-            <Button>
-              <Link className = "labrepBut" to = {`/reportdetails/${props.details.labReportId}`}>View Details</Link>
-            </Button>
-            </div>
-          </Card.Body>
-        </Card>
- 
+function LabReport({ details }) {
+  return (
+    <Card className="generic-card">
 
-      </div>
+      <Card.Header className="generic-card-header">
+        Test: {details.testName}
+      </Card.Header>
 
-      </>
-    );
-  };
+      <Card.Body className="generic-card-body">
 
-  export default LabReport;
+        <Card.Title className="generic-card-title">
+          {details.description}
+        </Card.Title>
+
+        {/* Button Right */}
+        <div className="generic-card-action">
+          <Link to={`/reportdetails/${details.labReportId}`} className="btn btn-primary">
+            View Details
+          </Link>
+        </div>
+
+      </Card.Body>
+
+    </Card>
+  );
+}
+
+export default LabReport;

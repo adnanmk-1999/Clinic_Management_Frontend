@@ -1,47 +1,51 @@
 import { Carousel } from "react-bootstrap";
-import "./carousel.css" 
+import "./carousel.css"
 
-const Carousel1 = () => {
+import doctor1 from "../../assets/images/doctor1.jpg";
+import doctor2 from "../../assets/images/doctor2.jpg";
+import doctor3 from "../../assets/images/doctor3.jpg";
+
+const CustomCarousel = () => {
     return (
         <>
-        <div className="carouselSize">
-        <Carousel fade>
-            <Carousel.Item>
-                <img
-                    className="d-block w-100"
-                    src="https://s3-eu-west-1.amazonaws.com/intercare-web-public/wysiwyg-uploads%2F1580196666465-doctor.jpg"
-                    alt="First slide"
-                />
-                <Carousel.Caption>
-                    <h3>Multiple data backups</h3>
-                </Carousel.Caption>
-            </Carousel.Item>
+            <div className="carouselSize">
+                <Carousel fade>
+                    <Carousel.Item>
+                        <img
+                            className="d-block w-100"
+                            src={doctor1}
+                            alt="First slide"
+                        />
+                        <Carousel.Caption>
+                            <h3>Empowering doctors with faster access to patient information</h3>
+                        </Carousel.Caption>
+                    </Carousel.Item>
 
-            <Carousel.Item>
-                <img
-                    className="d-block w-100"
-                    src="https://merriam-webster.com/assets/mw/images/article/art-wap-landing-mp-lg/doctor-holding-stethoscope-7523-f1a9a751cae1595d78e45e2478e4b12a@1x.jpg"
-                    alt="Second slide"
-                />
-                <Carousel.Caption>
-                    <h3>Multi-level security checks</h3>
-                </Carousel.Caption>
-            </Carousel.Item>
+                    <Carousel.Item>
+                        <img
+                            className="d-block w-100"
+                            src={doctor2}
+                            alt="Second slide"
+                        />
+                        <Carousel.Caption>
+                            <h3>Secure and confidential medical records management</h3>
+                        </Carousel.Caption>
+                    </Carousel.Item>
 
-            <Carousel.Item>
-                <img
-                    className="d-block w-100"
-                    src="https://www.juniordoctors.eu/themes/custom/ejd/images/ejd-home-header.jpg"
-                    alt="Third slide"
-                />
-                <Carousel.Caption>
-                    <h3>Stringent data privacy policies</h3>
-                </Carousel.Caption>
-            </Carousel.Item>
-        </Carousel>
-        </div>
+                    <Carousel.Item>
+                        <img
+                            className="d-block w-100"
+                            src={doctor3}
+                            alt="Third slide"
+                        />
+                        <Carousel.Caption>
+                            <h3>Simplifying appointments and consultations for every patient</h3>
+                        </Carousel.Caption>
+                    </Carousel.Item>
+                </Carousel>
+            </div>
         </>
     );
-  }
-  
-  export default Carousel1;
+}
+
+export default CustomCarousel;

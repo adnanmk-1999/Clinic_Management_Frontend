@@ -4,50 +4,50 @@ import "./footer.css";
 
 const FooterPage = () => {
   return (
-    <div className="footerBackground">
-    <MDBFooter color="primary" className="font-small pt-4 mt-4">
-      <MDBContainer fluid className="text-center text-md-left">
-        <MDBRow>
-          <MDBCol md="6">
-            <h5 className="title">REAL DOCTOR IS MUST</h5>
-            <p>
-            We understand that when it comes to health, depending solely on AI can be risky, 
-            that is why we have come up with an innovative solution which will make use of the 
-            benefits of AI as well as the real doctor. Using our app you will be able to talk with AI powered 
-            medical chatbot, who will understand your disease and will auto generate the medical 
-            prescription for you.
-            </p>
-          </MDBCol>
-          <MDBCol md="6">
-            <h5 className="title">Follow Us On</h5>
-            <ul>
-              <li className="list-unstyled">
-                <a href="#!">Facebook</a>
-              </li>
-              <li className="list-unstyled">
-                <a href="#!">Twitter</a>
-              </li>
-              <li className="list-unstyled">
-                <a href="#!">Instagram</a>
-              </li>
-              <li className="list-unstyled">
-                <a href="#!">LinkedIn</a>
-              </li>
-            </ul>
-            <p>Talk to Dr.Zee, your AI virtual doctor, 
-              and get instant medical consultation & 
-              medicine prescription approved by real 
-              doctor.</p>
-          </MDBCol>
-        </MDBRow>
-      </MDBContainer>
-      <div className="footer-copyright text-center py-3">
-        <MDBContainer fluid className="copyright">
-          &copy; {new Date().getFullYear()} Copyright: <a href="https://www.mdbootstrap.com"> HealthTech.com </a>
-        </MDBContainer>
+    <footer className="footer-container">
+
+      <div className="footer-content">
+
+        {/* LEFT SECTION */}
+        <div className="footer-section">
+          <h4 className="footer-title">HealthTech: Clinic Management System</h4>
+          <p className="footer-text">
+            A modern and easy-to-use Clinic Management System to streamline daily 
+            operations, manage patients, doctors, appointments, billing, and laboratory
+            workflows — all in one place.
+          </p>
+        </div>
+
+        {/* CENTER NAVIGATION */}
+        <div className="footer-section">
+          <h4 className="footer-title">Quick Links</h4>
+          <ul className="footer-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/events">Events</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/login">Log In</a></li>
+          </ul>
+        </div>
+
+        {/* RIGHT SOCIAL */}
+        <div className="footer-section">
+          <h4 className="footer-title">Follow Us</h4>
+          <div className="social-icons">
+            <a href="#"><i className="bi bi-facebook"></i></a>
+            <a href="#"><i className="bi bi-twitter"></i></a>
+            <a href="#"><i className="bi bi-instagram"></i></a>
+            <a href="#"><i className="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
       </div>
-    </MDBFooter>
-    </div>
+
+      {/* BOTTOM STRIP */}
+      <div className="footer-bottom">
+        © {new Date().getFullYear()} HealthTech CMS — All Rights Reserved.
+      </div>
+
+    </footer>
   );
 }
 

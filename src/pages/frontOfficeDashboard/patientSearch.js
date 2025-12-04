@@ -1,84 +1,91 @@
-import {useState} from 'react';
-import axios from 'axios';
-import { Form, Button } from 'react-bootstrap';
-import {useNavigate} from 'react-router-dom';
-import roleController from '../../helpers/roleLogin/roleLogin';
+import { useState } from "react";
+import api from "../../helpers/axiosServer/api";
+import { Form, Button } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import roleController from "../../helpers/roleLogin/roleLogin";
+import "./front.css";
 
-function Patientsearch(){
+function Patientsearch() {
+    if (!roleController.isFrontoffice()) {
+        window.location = "/login";
+    }
 
     return (
-        <>
-      <center>  <h1>Search Patient</h1></center>
-        <MyForm/>
-        </>
+        <div className="home">
+            <center><h1 className="heading">Search Patient</h1></center>
+            <hr />
+            <div className="form-card">
+                <MyForm />
+            </div>
+        </div>
     );
 }
 
-function MyForm(props){
-
-    if(!roleController.isFrontoffice()){
-        window.location = '/login'
-      }
-
-    const [inputs, setInputs] = useState([]);
-
+function MyForm() {
+    const [inputs, setInputs] = useState({});
+    const [foundPatient, setFoundPatient] = useState(null);
     const navigate = useNavigate();
 
-    function handleChange(event){
-        const name = event.target.name;
-        const value = event.target.value;
-        setInputs(values => ({...values, [name] : value}))
-    };
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setInputs(v => ({ ...v, [name]: value }));
+    }
 
-    function handleSubmit(event){
-        event.preventDefault();
-        console.log(inputs);
+    function handleSubmit(e) {
+        e.preventDefault();
 
-        axios.get(`http://localhost:4000/patients/patient/${inputs.patientName}`)
-            .then(response => { 
-                console.log(response);
-                if(response.data.length === 0){
-                    alert('Patient Not Registered !')
-                    window.location = '/registerPatient'
-                }
-                else{
-                   setInputs(response.data);
-                    alert('Patient Exits ! Add appointment')
-                    console.log(inputs[0].patientId) 
+        api.get(`/patients/patient/${inputs.patientName}`)
+            .then(res => {
+                if (res.data.length === 0) {
+                    alert("Patient not registered!");
+                    window.location = "/registerPatient";
+                } else {
+                    setFoundPatient(res.data[0]);
+                    alert("Patient exists! You can add an appointment.");
                 }
             })
-            .catch(error => {
-                if(error.response){
-                    alert(error.response.data)  //=> response payload
-                }
-            })
-    };
+            .catch(err => {
+                if (err.response) alert(err.response.data);
+            });
+    }
 
-    return(
-        <>
-        <div className="form">
+    return (
+        <Form onSubmit={handleSubmit}>
 
-        <Form onSubmit = {handleSubmit}>
-
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Patient Name</Form.Label>
-            <input className="input" type = "text" name = "patientName" placeholder = "Enter patient name"
-                        value = {inputs.patientName || ''} onChange = {handleChange}
-                        minLength="3" maxLength="15"
-                        required></input>
+            {/* Patient Name Input */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Patient Name</label>
+                <input
+                    className="form-input"
+                    type="text"
+                    name="patientName"
+                    placeholder="Enter patient name"
+                    value={inputs.patientName || ""}
+                    onChange={handleChange}
+                    minLength={3}
+                    maxLength={15}
+                    required
+                />
             </Form.Group>
 
-            <center>
-            <Button variant="primary" type="submit">Check</Button>&nbsp;&nbsp;
-            {inputs.length > 0 ? 
-                <Button variant="danger" onClick = {() => navigate(`/patientappointment/${inputs[0].patientId}`)} >Add Appointment</Button> :
-                console.log('Dummy')  }
-            </center>
+            {/* Buttons */}
+            <div className="form-buttons">
+                <Button type="submit" className="btn-primary-form">
+                    Check
+                </Button>
+
+                {foundPatient && (
+                    <Button
+                        type="button"
+                        className="btn-secondary-form"
+                        onClick={() => navigate(`/patientappointment/${foundPatient.patientId}`)}
+                    >
+                        Add Appointment
+                    </Button>
+                )}
+            </div>
         </Form>
-
-        </div>
-        </>
     );
+}
 
-};
 export default Patientsearch;

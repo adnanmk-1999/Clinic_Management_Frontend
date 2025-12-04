@@ -1,32 +1,35 @@
-import { Link } from "react-router-dom"
-import { Button, Card } from 'react-bootstrap'
-import './front.css'
+import { Link } from "react-router-dom";
+import { Button, Card } from "react-bootstrap";
+import "./front.css";
 
-function Appointment(props) {
-
-    console.log(props)
+function Appointment({ details }) {
     return (
-        <div className="whole_width">
-            <br />
-            <Card className="text-center">
-                <Card.Header>Appointment Details of {props.details.patientName}</Card.Header>
-           <Card.Body>
-               <Card.Title>Full Name : {props.details.patientName}</Card.Title>
-            <Button >
-                <Link to={`/appointmentView/${props.details.id}`}>
-                    View
-                </Link>
-            </Button>
-          {' '}
-          {' '}
-            <Button variant="danger" >
-                <Link to={`/appointmentDelete/${props.details.id}`}>
-                    Cancel
-                </Link>
-            </Button>
+        <Card className="generic-card">
+
+            <Card.Header className="generic-card-header">
+                Appointment – {details.patientName}
+            </Card.Header>
+
+            <Card.Body className="generic-card-body">
+
+                <Card.Title className="generic-card-title">
+                    Time: {details.appointmentTime}
+                </Card.Title>
+
+                <div className="generic-card-action">
+                    <Link to={`/appointmentView/${details.id}`}>
+                        <Button>View</Button>
+                    </Link>
+
+                    <Link to={`/appointmentDelete/${details.id}`} className="btn btn-danger">
+                        Cancel
+                    </Link>
+                </div>
+
             </Card.Body>
+
         </Card>
-        </div>
-    )
+    );
 }
+
 export default Appointment;

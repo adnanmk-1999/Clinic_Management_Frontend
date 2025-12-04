@@ -1,116 +1,137 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useParams } from "react-router";
-import { Form, Button } from 'react-bootstrap';
+import api from "../../helpers/axiosServer/api";
+import { Form, Button } from "react-bootstrap";
+import "./front.css";      // Same shared CSS as other forms
 import roleController from "../../helpers/roleLogin/roleLogin";
 import dates from "../../helpers/todayDate/getDate";
 
-
 function PatientEdit() {
 
-    if(!roleController.isFrontoffice()){
-        window.location = '/login'
-      }
-
-    const { patientId } = useParams()
-    return (
-        <div>
-           <center> <h1>Patient Edit</h1></center>
-            <MyForm patientId={patientId} />
-        </div>
-    )
-
-
-    function MyForm(props) {
-
-        const [Inputs, setInputs] = useState([])
-
-        useEffect(() => {
-
-            axios.get(`http://localhost:4000/patients/${props.patientId}`)
-                .then(response => {
-                    console.log('Promise fullfilled');
-                    console.log(response)
-                    setInputs(response.data)
-                })
-        }, [props.patientId])
-
-        function handleChange(event) {
-            const name = event.target.name;
-            const value = event.target.value;
-            setInputs(values => ({ ...values, [name]: value }))
-        }
-
-        function handleSubmit(event) {
-            event.preventDefault();
-            console.log(Inputs);
-
-            axios.put(`http://localhost:4000/patients/${props.patientId}`, Inputs)
-                .then(response => {
-                    console.log('Promise fullfilled');
-                    console.log(response);
-                    setInputs(response.data)
-                    alert('patient details has been updated')
-                    window.location = '/patientDisplay';
-                })
-        }
-
-
-        function goToHome(){
-            window.location = '/patientDisplay';
-        }
- 
-    
-        return (
-            <div className="form">
-
-            <Form onSubmit = {handleSubmit}>
-                <Form.Group className="mb-3" controlId="formBasicText">
-                    <Form.Label>Full Name</Form.Label>
-                    <input className="input" type = "text" name = "patientName" placeholder = "Enter full name"
-                            value = {Inputs.patientName || ''} onChange = {handleChange} 
-                            minLength="3" maxLength="15"
-                            required></input>
-                </Form.Group>
-    
-                <Form.Group className="mb-3" controlId="formBasicDate">
-                <Form.Label>Date of Birth</Form.Label>
-                <input className="input" type = "text" name = "dateOfBirth"
-                            value = {Inputs.dateOfBirth || ''} onChange = {handleChange}
-                            onFocus={(e) => (e.currentTarget.type = "date")}
-                            onBlur={(e) => (e.currentTarget.type = "text")}
-                            max = {dates.getDate()}
-                            required></input>
-                </Form.Group>
-    
-               
-     
-                <Form.Group className="mb-3" controlId="formBasicText">
-                <Form.Label>Address</Form.Label>
-                <input className="input" type = "text" name = "address" placeholder = "Enter Address"
-                            value = {Inputs.address || ''} onChange = {handleChange} 
-                            maxLength="30"
-                            required></input>
-                </Form.Group>
-    
-               
-    
-                <Form.Group className="mb-3" controlId="formBasicNumber">
-                <Form.Label>Phone</Form.Label>
-                <input className="input" type = "tel" name = "phoneNumber" placeholder = "Enter phone number"
-                            value = {Inputs.phoneNumber || ''} onChange = {handleChange} 
-                            required></input>
-                </Form.Group>
-    
-                <center>
-                <Button variant="primary" type="submit"  >Submit</Button>&nbsp;&nbsp;
-                <Button variant="danger" onClick = {goToHome} >Cancel</Button>
-                </center>
-    
-            </Form>
-    
-            </div>
-        )
+    if (!roleController.isFrontoffice()) {
+        window.location = "/login";
     }
+
+    const { patientId } = useParams();
+
+    return (
+        <div className="home">
+            <center><h1 className="heading">Edit Patient Details</h1></center>
+            <hr />
+
+            <div className="form-card">
+                <MyForm patientId={patientId} />
+            </div>
+        </div>
+    );
 }
+
+function MyForm({ patientId }) {
+
+    const [inputs, setInputs] = useState({});
+
+    useEffect(() => {
+        api.get(`patients/${patientId}`)
+            .then(response => {
+                setInputs(response.data);
+            });
+    }, [patientId]);
+
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setInputs(values => ({ ...values, [name]: value }));
+    }
+
+    function handleSubmit(e) {
+        e.preventDefault();
+
+        api.put(`patients/${patientId}`, inputs)
+            .then(() => {
+                alert("Patient details updated successfully!");
+                window.location = "/patientDisplay";
+            });
+    }
+
+    function goBack() {
+        window.location = "/patientDisplay";
+    }
+
+    return (
+        <Form onSubmit={handleSubmit}>
+
+            {/* Full Name */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Full Name</label>
+                <input
+                    className="form-input"
+                    type="text"
+                    name="patientName"
+                    placeholder="Enter full name"
+                    minLength={3}
+                    maxLength={30}
+                    value={inputs.patientName || ""}
+                    onChange={handleChange}
+                    required
+                />
+            </Form.Group>
+
+            {/* Date of Birth */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Date of Birth</label>
+                <input
+                    className="form-input"
+                    type="date"
+                    name="dateOfBirth"
+                    max={dates.getDate()}
+                    value={inputs.dateOfBirth || ""}
+                    onChange={handleChange}
+                    required
+                />
+            </Form.Group>
+
+            {/* Address */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Address</label>
+                <input
+                    className="form-input"
+                    type="text"
+                    name="address"
+                    placeholder="Enter address"
+                    maxLength={60}
+                    value={inputs.address || ""}
+                    onChange={handleChange}
+                    required
+                />
+            </Form.Group>
+
+            {/* Phone Number */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Phone Number</label>
+                <input
+                    className="form-input"
+                    type="tel"
+                    name="phoneNumber"
+                    placeholder="Enter phone number"
+                    maxLength={10}
+                    value={inputs.phoneNumber || ""}
+                    onChange={handleChange}
+                    required
+                />
+            </Form.Group>
+
+            {/* Buttons */}
+            <div className="form-buttons">
+                <Button className="btn-primary-form" type="submit">
+                    Update
+                </Button>
+
+                <Button className="btn-secondary-form" onClick={goBack}>
+                    Cancel
+                </Button>
+            </div>
+
+        </Form>
+    );
+}
+
 export default PatientEdit;

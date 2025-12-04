@@ -1,115 +1,163 @@
-import {useState, useEffect} from 'react';
-import axios from 'axios';
-import { Form, Button } from 'react-bootstrap';
-import {useParams} from 'react-router-dom';
-import roleController from '../../helpers/roleLogin/roleLogin';
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import api from "../../helpers/axiosServer/api";
+import { Form, Button } from "react-bootstrap";
+import "./labtechnician.css";
+import roleController from "../../helpers/roleLogin/roleLogin";
 
-function LabreportEdit(){
+function LabreportEdit() {
 
-    if(!roleController.isLabtechnician()){
-        window.location = '/login'
-      }
+    if (!roleController.isLabtechnician()) {
+        window.location = "/login";
+    }
 
-    const {labReportId} = useParams();
+    const { labReportId } = useParams();
+
     return (
-        <>
-        <center><h1>Enter details</h1></center>
-        <MyForm labReportId = {labReportId}/>
-        </>
+        <div className="home">
+            <center><h1 className="heading">Edit Lab Report</h1></center>
+            <hr />
+
+            <div className="form-card">
+                <MyForm labReportId={labReportId} />
+            </div>
+        </div>
     );
 }
 
-function MyForm(props){
+function MyForm({ labReportId }) {
+
     const [inputs, setInputs] = useState({});
-        //To get the staff details from the staff id
-        useEffect(() => {
-            axios.get(`http://localhost:4000/reports/${props.labReportId}`) //gets data from staff
-              .then(response =>{
-                  console.log('Promise fullfilled');
-                  console.log(response); 
-                  setInputs(response.data);            
-              })
-        },[props.labReportId]);
 
-    function handleChange(event){
-        const name = event.target.name;
-        const value = event.target.value;
-        setInputs(values => ({...values, [name] : value}))
-    };
+    useEffect(() => {
+        api.get(`reports/${labReportId}`)
+            .then(response => {
+                setInputs(response.data);
+            });
+    }, [labReportId]);
 
-    function handleSubmit(event){
-        event.preventDefault();
-        console.log(inputs);
-
-        axios.put(`http://localhost:4000/reports/${props.labReportId}`, inputs)
-            .then(response => { 
-                    console.log('Promise Fullfilled');
-                    console.log(response);
-                    alert('Lab Report Updated !') 
-                    window.location = '/reportlist';    
-            })
-    };
-
-    function goToDetails(){
-        window.location = `/reportdetails/${props.labReportId}`;
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setInputs(values => ({ ...values, [name]: value }));
     }
 
-    return(
-        <>
-        <div className="form">
-        <Form onSubmit = {handleSubmit}>
+    function handleSubmit(e) {
+        e.preventDefault();
 
-        <Form.Group className="mb-3" controlId="formBasicText">
-                <Form.Label>Test Name</Form.Label>
-                <input className="input" type = "text" name = "testName" placeholder = "Enter Test Name"
-                        value = {inputs.testName || ''} onChange = {handleChange} 
-                        minLength="3" maxLength="20"
-                        required></input>
-            </Form.Group>
-           
-            <Form.Group className="mb-3" controlId="formBasicText">
-            <Form.Label>Description</Form.Label>
-            <input className="input" type = "text" name = "description"
-                        value = {inputs.description || ''} onChange = {handleChange}
-                        maxLength="30"
-                        required></input>
-            </Form.Group>
+        api.put(`reports/${labReportId}`, inputs)
+            .then(() => {
+                alert("Lab Report Updated Successfully!");
+                window.location = "/reportlist";
+            });
+    }
 
-            <Form.Group className="mb-3" controlId="formBasicText">
-            <Form.Label>Report Date</Form.Label>
-            <input className="input" type = "date" name = "reportDate"
-                        value = {inputs.reportDate || ''} onChange = {handleChange}
-                        required></input>
-            </Form.Group>
+    function goBack() {
+        window.location = `/reportdetails/${labReportId}`;
+    }
 
-            <Form.Group className="mb-3" controlId="formBasicText">
-            <Form.Label>Desired Range</Form.Label>
-            <input className="input" type = "text" name = "desiredRange" placeholder = "eg. 1000-2000"
-                        value = {inputs.desiredRange || ''} onChange = {handleChange}
-                        required></input>
+    return (
+        <Form onSubmit={handleSubmit}>
+
+            {/* Test Name */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Test Name</label>
+                <input
+                    className="form-input"
+                    type="text"
+                    name="testName"
+                    placeholder="Enter test name"
+                    minLength={3}
+                    maxLength={20}
+                    value={inputs.testName || ""}
+                    onChange={handleChange}
+                    required
+                />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicText">
-            <Form.Label>Result Value</Form.Label>
-            <input className="input" type = "text" name = "resultValue" placeholder = "Enter the obtained value"
-                        value = {inputs.resultValue || ''} onChange = {handleChange}
-                        required></input>
+            {/* Description */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Description</label>
+                <input
+                    className="form-input"
+                    type="text"
+                    name="description"
+                    placeholder="Enter description"
+                    maxLength={40}
+                    value={inputs.description || ""}
+                    onChange={handleChange}
+                    required
+                />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicText">
-            <Form.Label>Remarks</Form.Label>
-            <input className="input" type = "text" name = "remarks" placeholder = "Enter the comments"
-                        value = {inputs.remarks || ''} onChange = {handleChange}
-                        required></input>
+            {/* Report Date */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Report Date</label>
+                <input
+                    className="form-input"
+                    type="date"
+                    name="reportDate"
+                    value={inputs.reportDate || ""}
+                    onChange={handleChange}
+                    required
+                />
             </Form.Group>
-       
-            <center>
-            <Button variant="primary" type="submit">Submit</Button> &nbsp;&nbsp;
-            <Button variant="danger" onClick = {goToDetails} >Cancel</Button>
-            </center>
-            </Form>
+
+            {/* Desired Range */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Desired Range</label>
+                <input
+                    className="form-input"
+                    type="text"
+                    name="desiredRange"
+                    placeholder="eg. 1000–2000"
+                    value={inputs.desiredRange || ""}
+                    onChange={handleChange}
+                    required
+                />
+            </Form.Group>
+
+            {/* Result Value */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Result Value</label>
+                <input
+                    className="form-input"
+                    type="text"
+                    name="resultValue"
+                    placeholder="Enter obtained value"
+                    value={inputs.resultValue || ""}
+                    onChange={handleChange}
+                    required
+                />
+            </Form.Group>
+
+            {/* Remarks */}
+            <Form.Group className="mb-4">
+                <label className="form-label">Remarks</label>
+                <input
+                    className="form-input"
+                    type="text"
+                    name="remarks"
+                    placeholder="Enter remarks"
+                    maxLength={40}
+                    value={inputs.remarks || ""}
+                    onChange={handleChange}
+                    required
+                />
+            </Form.Group>
+
+            {/* Buttons */}
+            <div className="form-buttons">
+                <Button className="btn-primary-form" type="submit">
+                    Update
+                </Button>
+
+                <Button className="btn-secondary-form" onClick={goBack}>
+                    Cancel
+                </Button>
             </div>
-            </>
-    )
+
+        </Form>
+    );
 }
+
 export default LabreportEdit;
