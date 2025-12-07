@@ -36,20 +36,15 @@ This includes:
 
 ## 📚 Table of Contents
 
-Click to jump to a section:
+Jump to a section:
 
 1. [🏥 About the Application](#-about-the-application)
 2. [📐 Architecture & Backend Overview](#-architecture--backend-overview)
-3. [🖼️ Screenshots & GIFs](#️-screenshots--gifs)
 4. [✨ Features](#-features)
 5. [🧭 How to Use the App](#-how-to-use-the-app-user-flow)
 6. [🚀 Getting Started](#-getting-started--frontend-only)
-7. [🔌 Connecting to the Backend](#-connecting-the-frontend-to-the-backend-api)
-8. [🌍 Deployment Guide](#-deployment-guide)
-9. [🧰 Tech Stack](#-tech-stack)
-10. [📂 Project Structure](#-project-structure)
 11. [🔮 Future Enhancements](#-future-enhancements)
-12. [📄 License & Contact](#-license--contact)
+12. [📄 Author](#-author)
 
 
 ## 🩺 About the Application
@@ -71,7 +66,6 @@ This application is built to serve **four major roles** within a clinic:
 
 Each role gets a personalized dashboard and tools relevant to their responsibilities, making the clinic workflow smoother, faster, and more error-free.
 
----
 
 ### 💡 Why This App Is Important for a Clinic
 
@@ -236,7 +230,7 @@ Every feature is connected to the backend API and adapts dynamically based on th
 The section below breaks down features **role-by-role**, showing how each part of the clinic benefits from this system.
 
 
-## 👨‍💼 Admin Features
+### 👨‍💼 Admin Features
 
 <p align="center">
   <img src="docs/admin-dashboard.gif" alt="Admin Dashboard GIF" width="800"/>
@@ -244,21 +238,21 @@ The section below breaks down features **role-by-role**, showing how each part o
 
 Admins get the highest level of control. Their dashboard offers:
 
-### 🛠 User & Role Management
+#### 🛠 User & Role Management
 - View all registered users  
 - Assign or modify roles (Doctor, Lab Technician, Front Office)  
 - Manage staff credentials  
 - Improve onboarding and reduce administrative overhead  
 
-### 📊 Clinic Oversight
+#### 📊 Clinic Oversight
 - Overview of patient activity  
 - Track lab operations  
 - Monitor appointments & staff availability  
 
-### 🎯 Why this helps
+#### 🎯 Why this helps
 Admins can run the clinic **efficiently and transparently**, reducing bottlenecks and ensuring the clinic runs smoothly each day.
 
-## 🧑‍💼 Front Office Features
+### 🧑‍💼 Front Office Features
 
 <p align="center">
   <img src="docs/frontoffice-dashboard.gif" alt="Front Office Dashboard GIF" width="800"/>
@@ -266,23 +260,23 @@ Admins can run the clinic **efficiently and transparently**, reducing bottleneck
 
 Front office staff interact with patients first. Their dashboard supports:
 
-### 📝 Patient Registration
+#### 📝 Patient Registration
 - Add new patients with demographic details  
 - Avoid manual entry errors and paper forms  
 
-### 📅 Appointment Scheduling
+#### 📅 Appointment Scheduling
 - Book appointments for doctors  
 - Manage time slots  
 - View upcoming schedules  
 
-### 📞 Patient Search & Info Retrieval
+#### 📞 Patient Search & Info Retrieval
 - Quickly find patient details  
 - Supports walk-ins and returning patients  
 
-### 🎯 Why this helps
+#### 🎯 Why this helps
 Front office work becomes **faster, smoother, and error-free**, improving patient experience right from the entrance.
 
-## 👨‍⚕️ Doctor Features
+### 👨‍⚕️ Doctor Features
 
 <p align="center">
   <img src="docs/doctor-dashboard.gif" alt="Doctor Dashboard GIF" width="800"/>
@@ -290,24 +284,24 @@ Front office work becomes **faster, smoother, and error-free**, improving patien
 
 Doctors receive tools that let them focus on actual care:
 
-### 🧑‍⚕️ Patient Overview
+#### 🧑‍⚕️ Patient Overview
 - View assigned patients  
 - Access medical details, visits, test results  
 
-### 🧪 Lab Test Integration
+#### 🧪 Lab Test Integration
 - See pending or completed lab reports  
 - Track test statuses without manually checking with technicians  
 
-### 🗓 Appointment View
+#### 🗓 Appointment View
 - See daily appointments  
 - Helps doctors plan their day efficiently  
 
-### 🎯 Why this helps
+#### 🎯 Why this helps
 Doctors spend less time looking for information and more time providing care.  
 Everything is **centralized, searchable, and updated in real-time**.
 
 
-## 🧪 Lab Technician Features
+### 🧪 Lab Technician Features
 
 <p align="center">
   <img src="docs/labtech-dashboard.gif" alt="Lab Technician Dashboard GIF" width="800"/>
@@ -315,22 +309,22 @@ Everything is **centralized, searchable, and updated in real-time**.
 
 Lab technicians get a clear, structured workflow:
 
-### 🔬 Test Request List
+#### 🔬 Test Request List
 - See all tests ordered by doctors  
 
-### 📍 Update Lab Test Status
+#### 📍 Update Lab Test Status
 - Mark tests as *in progress* or *completed*  
 - Upload or update test notes  
 
-### 📄 Generate Lab Reports
+#### 📄 Generate Lab Reports
 - Reports automatically link to doctors & patients  
 - Ensures accurate results flow through the system  
 
-### 🎯 Why this helps
+#### 🎯 Why this helps
 The lab works more efficiently with fewer interruptions and no manual communication gaps between doctors and technicians.
 
 
-## 📅 Events & Internal Communication
+### 📅 Events & Public Integration
 
 The **Events** section allows admins to post important announcements that are visible to all staff members.  
 This helps the clinic stay informed about holidays, meetings, maintenance schedules, and other internal updates without relying on external communication channels.
@@ -339,7 +333,7 @@ This helps the clinic stay informed about holidays, meetings, maintenance schedu
   <img src="docs/events-section.gif" alt="Events Page GIF" width="800"/>
 </p>
 
-### ➕ Adding a New Event (Admin Only)
+#### ➕ Adding a New Event (Admin Only)
 
 Admins can quickly create new announcements directly from their dashboard.
 
@@ -352,25 +346,24 @@ Typical events include clinic holidays, doctor availability changes, staff meeti
 All staff members can view these updates in real time as part of their dashboard experience.
 
 
+### ❗ Error Handling & User Experience Enhancements
 
-## ❗ Error Handling & User Experience Enhancements
-
-### 🚫 Custom 404 / NoMatch Page
+#### 🚫 Custom 404 / NoMatch Page
 <p align="center">
   <img src="docs/404-page.gif" alt="Custom 404 Page" width="800"/>
 </p>
 
 If a user navigates to an unknown route, they are shown a clean fallback page instead of a blank screen.
 
-### 🔐 Conditional Rendering
+#### 🔐 Conditional Rendering
 - Missing patient data shows *“Not Available”*  
 - Prevents app crashes and enhances professionalism  
 
-### ⚡ Responsive UI
+#### ⚡ Responsive UI
 - Works beautifully across laptops, tablets, and desktops  
 
 
-## 🌍 Why These Features Matter
+### 🌍 Why These Features Matter
 
 Collectively, these features:
 
@@ -566,5 +559,6 @@ Use the top navigation bar or dashboard buttons to access:
 - Role-specific tools  
 - Settings / Logout  
 
-
-
+# 👤 Author  
+Developed by **Adnan**  
+Software Developer & Robotics Engineer
