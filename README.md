@@ -17,24 +17,7 @@
 </p>
 
 
-## 🔗 Related Repository (Backend)
-
-The backend service that powers this frontend can be found here:
-
-👉 **Backend Repository:**  
-https://github.com/adnanmk-1999/Clinic_Management_Backend
-
-This includes:
-
-- Authentication and login flow  
-- Role-based access logic  
-- Patient database models  
-- Admin, Doctor, Lab Tech, and Front Office API routes  
-- MySQL integration (Local / Docker)  
-- Docker Compose support  
-
-
-## 📚 Table of Contents
+# 📚 Table of Contents
 
 Jump to a section:
 
@@ -44,17 +27,18 @@ Jump to a section:
 5. [🧭 How to Use the App](#-how-to-use-the-app-user-flow)
 6. [🚀 Getting Started](#-getting-started--frontend-only)
 11. [🔮 Future Enhancements](#-future-enhancements)
+8. [🔗 Related Repository (Backend)](#-related-repository-backend)
 12. [📄 Author](#-author)
 
 
-## 🩺 About the Application
+# 🩺 About the Application
 
 <p align="center">
   <!-- 🎞️ Placeholder for ABOUT PAGE GIF -->
   <img src="docs/about-section.gif" alt="About Section - Clinic Management System" width="800"/>
 </p>
 
-The **Clinic Management System – Frontend** is a unified web interface designed to streamline daily operations inside a clinic.  
+The **Clinic Management System** is a unified web interface designed to streamline daily operations inside a clinic.  
 It replaces fragmented tools, manual paperwork, and scattered spreadsheets by providing a **structured, role-based, secure, and intuitive interface** for clinic staff.
 
 This application is built to serve **four major roles** within a clinic:
@@ -87,71 +71,20 @@ When these processes are handled manually or across disconnected systems, clinic
 
 This application addresses all of those issues by providing:
 
-
-### ✔ A Centralized System  
-
-All patient data, appointments, lab results, and internal workflows live in **one** system that all roles can access according to their permissions.
-
-
-### ✔ Faster & Smarter Workflows  
-
-- Doctors instantly see assigned patients and their details.  
-- Front office staff can register patients and manage appointments efficiently.  
-- Lab technicians get a clear list of test orders and can update statuses.  
-- Admins get a higher-level view of the clinic’s operations.
+#### ✔ A Centralized System  
+##### ✔ Role-Based Access Control (RBAC)  
+#### ✔ Real-Time Data Sync  
+#### ✔ Professional, Scalable & Cloud-Ready  
+#### ✔ Modern User Experience  
 
 
-### ✔ Role-Based Access Control (RBAC)  
-
-Each staff member sees only what they are supposed to see. This improves:
-
-- Security  
-- Clarity  
-- Operational flow  
-
-
-### ✔ Real-Time Data Sync  
-
-With a connected backend and MySQL database:
-
-- Newly added patients appear instantly  
-- Lab updates flow back to doctors and admin  
-- Appointments and events update dynamically  
-
-No manual syncing. No duplicated data. No cross-checking different tools.
-
-
-### ✔ Professional, Scalable & Cloud-Ready  
-
-The app is structured for:
-
-- Cloud deployment  
-- Docker-based setups  
-- Adding more roles in the future  
-- Extending to multi-branch clinics over time  
-
-
-### ✔ Modern User Experience  
-
-Built using React with responsive UI components:
-
-- Clean dashboards  
-- Clear navigation  
-- Easy patient lookup  
-- Error handling and graceful fallbacks (e.g., custom 404 / NoMatch page)
-
-
-### 🌟 In one sentence:
-
-> **This app modernizes clinic operations by providing a fast, secure, and role-oriented management interface that helps every staff member do their job more efficiently.**
-
-## 📐 Architecture & Backend Overview
+# 📐 Architecture & Backend Overview
 
 The Clinic Management System follows a **three-tier architecture** consisting of:
 
 1. A **React-based frontend** (this repository)
 2. A **Node.js + Express backend API**
-3. A **MySQL relational database** hosted locally, via Docker, or on cloud services like Aiven
+3. A **MySQL relational database** hosted locally, via Docker, or on local services.
 
 This layered design ensures scalability, clean separation of concerns, and secure handling of patient and staff data.
 
@@ -190,24 +123,8 @@ The database stores all clinic-related information including:
 - Lab workflows  
 - Billing and administrative records  
 
-### 🔌 Communication Flow
 
-```
-React Frontend (Axios)
-        │
-        ▼
-Backend API (Express + Sequelize)
-        │
-        ▼
-MySQL Database (Docker / Local)
-```
-
-- The frontend sends HTTP requests using Axios.  
-- The backend performs data validation, applies logic, and queries the database.  
-- Responses return structured JSON for the frontend to render dynamic dashboards.
-
-
-## ✨ Features
+# ✨ Features
 
 The Clinic Management System provides a rich set of features tailored to the daily operations of a clinic.  
 Every feature is connected to the backend API and adapts dynamically based on the user’s role.
@@ -230,7 +147,7 @@ Every feature is connected to the backend API and adapts dynamically based on th
 The section below breaks down features **role-by-role**, showing how each part of the clinic benefits from this system.
 
 
-### 👨‍💼 Admin Features
+## 👨‍💼 Admin Features
 
 <p align="center">
   <img src="docs/admin-dashboard.gif" alt="Admin Dashboard GIF" width="800"/>
@@ -249,10 +166,7 @@ Admins get the highest level of control. Their dashboard offers:
 - Track lab operations  
 - Monitor appointments & staff availability  
 
-#### 🎯 Why this helps
-Admins can run the clinic **efficiently and transparently**, reducing bottlenecks and ensuring the clinic runs smoothly each day.
-
-### 🧑‍💼 Front Office Features
+## 🧑‍💼 Front Office Features
 
 <p align="center">
   <img src="docs/frontoffice-dashboard.gif" alt="Front Office Dashboard GIF" width="800"/>
@@ -273,10 +187,7 @@ Front office staff interact with patients first. Their dashboard supports:
 - Quickly find patient details  
 - Supports walk-ins and returning patients  
 
-#### 🎯 Why this helps
-Front office work becomes **faster, smoother, and error-free**, improving patient experience right from the entrance.
-
-### 👨‍⚕️ Doctor Features
+## 👨‍⚕️ Doctor Features
 
 <p align="center">
   <img src="docs/doctor-dashboard.gif" alt="Doctor Dashboard GIF" width="800"/>
@@ -295,11 +206,6 @@ Doctors receive tools that let them focus on actual care:
 #### 🗓 Appointment View
 - See daily appointments  
 - Helps doctors plan their day efficiently  
-
-#### 🎯 Why this helps
-Doctors spend less time looking for information and more time providing care.  
-Everything is **centralized, searchable, and updated in real-time**.
-
 
 ### 🧪 Lab Technician Features
 
@@ -320,14 +226,11 @@ Lab technicians get a clear, structured workflow:
 - Reports automatically link to doctors & patients  
 - Ensures accurate results flow through the system  
 
-#### 🎯 Why this helps
-The lab works more efficiently with fewer interruptions and no manual communication gaps between doctors and technicians.
 
+## 📅 Events & Public Integration
 
-### 📅 Events & Public Integration
-
-The **Events** section allows admins to post important announcements that are visible to all staff members.  
-This helps the clinic stay informed about holidays, meetings, maintenance schedules, and other internal updates without relying on external communication channels.
+The **Events** section allows admins to post important announcements that are visible to all staff members and the general public.  
+This helps the clinic and the locality stay informed about holidays, celebrations, meetings, maintenance schedules, and other internal updates without relying on external communication channels.
 
 <p align="center">
   <img src="docs/events-section.gif" alt="Events Page GIF" width="800"/>
@@ -343,10 +246,8 @@ Admins can quickly create new announcements directly from their dashboard.
 
 Typical events include clinic holidays, doctor availability changes, staff meetings, equipment maintenance, and general announcements.
 
-All staff members can view these updates in real time as part of their dashboard experience.
 
-
-### ❗ Error Handling & User Experience Enhancements
+## ❗ Error Handling & User Experience Enhancements
 
 #### 🚫 Custom 404 / NoMatch Page
 <p align="center">
@@ -363,21 +264,7 @@ If a user navigates to an unknown route, they are shown a clean fallback page in
 - Works beautifully across laptops, tablets, and desktops  
 
 
-### 🌍 Why These Features Matter
-
-Collectively, these features:
-
-- Reduce miscommunication inside the clinic  
-- Improve workflow speed  
-- Centralize operations  
-- Provide transparency and traceability  
-- Make onboarding new staff easier  
-- Deliver a polished, professional user experience  
-
-> **In short:**  
-> This system helps clinics run like well-organized, modern healthcare centers.
-
-## 🚀 Getting Started with the App
+# 🚀 Getting Started with the App
 
 This repository contains **only the frontend** of the Clinic Management System.  
 To use the app fully, you must connect it to the **backend API**, which handles authentication, roles, patients, appointments, lab tests, and more.
@@ -390,13 +277,7 @@ You can run the frontend in two ways:
 Because this project was originally developed with an **older Node.js version**, running it locally may require matching a compatible Node version.  
 Docker automatically handles this and provides a clean, consistent environment — making it the recommended method.
 
-### 🔧 Requirements
-
-- Backend API running (local or remote)  
-- API URL available (e.g., `http://localhost:3001` or cloud URL)  
-- Frontend cloned from this repository  
-
-## 🐳 Running the Frontend with Docker (Recommended)
+## 🐳 Running the frontend with Docker (Recommended)
 
 This is the easiest and most reliable method, especially on systems where Node.js versions differ.
 
@@ -431,8 +312,7 @@ Replace this URL with your backend's deployed address.
 ### 3️⃣ Build and Run the Docker Container
 
 ```bash
-docker build -t clinic-frontend .
-docker run -p 3000:3000 clinic-frontend
+docker compose up --build
 ```
 
 Your app will now be available at:
@@ -471,8 +351,9 @@ npm install
 Create a `.env` file:
 
 ```env
-REACT_APP_API_URL=http://localhost:3001
+REACT_APP_API_URL=http://localhost:4000
 ```
+Replace this URL with your backend's deployed address.
 
 ### 3️⃣ Start the Development Server
 
@@ -486,16 +367,7 @@ The app will launch at:
 http://localhost:3000
 ```
 
-Local hot-reloading will be active, so UI updates reflect immediately.
-
-## ⚠️ Important Note
-
-The frontend **will not function** without the backend running.  
-Ensure that the backend API is started and accessible before using this app.
-
-In the next section, we will cover **how to use the app**, including default login credentials and the workflow for each role.
-
-## 🧭 How to Use the App
+# 🧭 How to Use the App
 
 Once the frontend is running and connected to the backend, you can log in using the **pre-seeded accounts** that come with the backend database.  
 These accounts are automatically created when the backend is initialized, allowing you to explore all the different dashboards and workflows without manually setting up users.
@@ -514,50 +386,61 @@ If you want to create a new personal account later, it must be created by an **A
 > These are demo accounts intended for testing the system.  
 > You can use them to walk through every dashboard and functionality.
 
-## ▶️ Using the Application
+# 🔮 Future Enhancements
 
-After starting the frontend (locally or via Docker), visit:
+HealthTech is already fully functional, but several improvements are planned to enhance usability, scalability, and the overall user experience. These upcoming features will help make the system more intuitive, efficient, and production-ready.
 
-```
-http://localhost:3000
-```
+### 📌 Planned Improvements
 
-You will see the **Home page** with options to navigate through the application.
+- **Adopt a Global State Management System (React Pinia, Redux, or Recoil)**  
+  To streamline data flow between components, reduce prop drilling, and improve performance across dashboards.
 
-### 1️⃣ Log In
+- **Custom Alert & Notification System**  
+  Replace browser alerts with a unified, polished alert/modal component for confirmations, warnings, errors, and success messages.
 
-Click **Login** on the navbar and enter any of the default credentials.  
-After successful authentication:
+- **Interactive Tooltips & User Guidance**  
+  Add tooltips, onboarding hints, and UI helpers to guide new users through features like appointments, patient registration, and lab workflows.
 
-- The backend identifies your **role**
-- You are redirected to your corresponding **dashboard**
+- **Patient Account Creation Module**  
+  Allow admins—or eventually patients themselves—to create login accounts with controlled access and verification.
 
-### 2️⃣ Explore Your Role Dashboard
+### 🚀 Additional Enhancements Under Consideration
 
-Each role provides different features:
+- **Dark Mode UI Theme**  
+  A modern toggleable dark/light theme to improve readability and give the app a professional touch.
 
-- **Admin Dashboard**  
-  Manage users, oversee clinic-wide activity, manage administrative tasks.
+- **Role-Based Landing Pages**  
+  Automatically redirect roles (Admin, Doctor, Front Office, Lab Tech) to personalized start pages with quick actions.
 
-- **Doctor Dashboard**  
-  View patients, appointments, lab results, and patient details.
+- **Improved Form Validation & Error Messaging**  
+  Replace basic HTML validation with a consistent library like React Hook Form or Formik, paired with detailed error descriptions.
 
-- **Front Office Dashboard**  
-  Register patients, manage appointments, handle incoming patient flow.
+- **Activity Logs / Audit Trail**  
+  Track important actions such as patient edits, appointment updates, and lab report changes for compliance and debugging.
 
-- **Lab Technician Dashboard**  
-  View lab test requests, update statuses, upload results.
+- **Search & Filter Improvements**  
+  Fast, dynamic searching across patients, appointments, and reports with advanced filtering options.
 
-### 3️⃣ Navigate the App
+- **Responsive Mobile-Friendly Layout**  
+  Enhance mobile UI for staff accessing the app on tablets or small screens.
 
-Use the top navigation bar or dashboard buttons to access:
+These enhancements will help HealthTech grow from a student project into a robust, real-world clinical management solution.
 
-- Patients  
-- Appointments  
-- Lab Tests  
-- Events  
-- Role-specific tools  
-- Settings / Logout  
+# 🔗 Related Repository (Backend)
+
+The backend service that powers this frontend can be found here:
+
+👉 **Backend Repository:**  
+https://github.com/adnanmk-1999/Clinic_Management_Backend
+
+This includes:
+
+- Authentication and login flow  
+- Role-based access logic  
+- Patient database models  
+- Admin, Doctor, Lab Tech, and Front Office API routes  
+- MySQL integration (Local / Docker)  
+- Docker Compose support  
 
 # 👤 Author  
 Developed by **Adnan**  
