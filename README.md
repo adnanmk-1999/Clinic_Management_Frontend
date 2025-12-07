@@ -239,9 +239,7 @@ The section below breaks down features **role-by-role**, showing how each part o
 ## 👨‍💼 Admin Features
 
 <p align="center">
-  <img src="docs/media/admin-dashboard.gif" alt="Admin Dashboard GIF" width="800"/>
-  <br/>
-  <em>(GIF showing admin dashboard, navigation, and user/clinic management)</em>
+  <img src="docs/admin-dashboard.gif" alt="Admin Dashboard GIF" width="800"/>
 </p>
 
 Admins get the highest level of control. Their dashboard offers:
@@ -260,13 +258,34 @@ Admins get the highest level of control. Their dashboard offers:
 ### 🎯 Why this helps
 Admins can run the clinic **efficiently and transparently**, reducing bottlenecks and ensuring the clinic runs smoothly each day.
 
+## 🧑‍💼 Front Office Features
+
+<p align="center">
+  <img src="docs/frontoffice-dashboard.gif" alt="Front Office Dashboard GIF" width="800"/>
+</p>
+
+Front office staff interact with patients first. Their dashboard supports:
+
+### 📝 Patient Registration
+- Add new patients with demographic details  
+- Avoid manual entry errors and paper forms  
+
+### 📅 Appointment Scheduling
+- Book appointments for doctors  
+- Manage time slots  
+- View upcoming schedules  
+
+### 📞 Patient Search & Info Retrieval
+- Quickly find patient details  
+- Supports walk-ins and returning patients  
+
+### 🎯 Why this helps
+Front office work becomes **faster, smoother, and error-free**, improving patient experience right from the entrance.
 
 ## 👨‍⚕️ Doctor Features
 
 <p align="center">
-  <img src="docs/media/doctor-dashboard.gif" alt="Doctor Dashboard GIF" width="800"/>
-  <br/>
-  <em>(GIF showing patient list, patient details, test results)</em>
+  <img src="docs/doctor-dashboard.gif" alt="Doctor Dashboard GIF" width="800"/>
 </p>
 
 Doctors receive tools that let them focus on actual care:
@@ -288,40 +307,11 @@ Doctors spend less time looking for information and more time providing care.
 Everything is **centralized, searchable, and updated in real-time**.
 
 
-## 🧑‍💼 Front Office Features
-
-<p align="center">
-  <img src="docs/media/frontoffice-dashboard.gif" alt="Front Office Dashboard GIF" width="800"/>
-  <br/>
-  <em>(GIF showing registration flow, appointment creation, patient lookup)</em>
-</p>
-
-Front office staff interact with patients first. Their dashboard supports:
-
-### 📝 Patient Registration
-- Add new patients with demographic details  
-- Avoid manual entry errors and paper forms  
-
-### 📅 Appointment Scheduling
-- Book appointments for doctors  
-- Manage time slots  
-- View upcoming schedules  
-
-### 📞 Patient Search & Info Retrieval
-- Quickly find patient details  
-- Supports walk-ins and returning patients  
-
-### 🎯 Why this helps
-Front office work becomes **faster, smoother, and error-free**, improving patient experience right from the entrance.
-
-
 ## 🧪 Lab Technician Features
 
 <p align="center">
-  <img src="docs/media/labtech-dashboard.gif" alt="Lab Technician Dashboard GIF" width="800"/>
-  <br/>
-  <em>(GIF showing test request list, updating test status, viewing details)</em>
-</p>
+  <img src="docs/labtech-dashboard.gif" alt="Lab Technician Dashboard GIF" width="800"/>
+  </p>
 
 Lab technicians get a clear, structured workflow:
 
@@ -342,27 +332,32 @@ The lab works more efficiently with fewer interruptions and no manual communicat
 
 ## 📅 Events & Internal Communication
 
+The **Events** section allows admins to post important announcements that are visible to all staff members.  
+This helps the clinic stay informed about holidays, meetings, maintenance schedules, and other internal updates without relying on external communication channels.
+
 <p align="center">
-  <img src="docs/media/events-page.gif" alt="Events Page GIF" width="800"/>
-  <br/>
-  <em>(GIF showing events list and announcements)</em>
+  <img src="docs/events-section.gif" alt="Events Page GIF" width="800"/>
 </p>
 
-Admins can post events such as:
+### ➕ Adding a New Event (Admin Only)
 
-- Clinic holiday notices  
-- Staff meetings  
-- Announcements  
-- Maintenance schedules  
+Admins can quickly create new announcements directly from their dashboard.
 
-All staff see these events in their dashboards.
+<p align="center">
+  <img src="docs/admin-event.gif" alt="Admin Adding Event GIF" width="800"/>
+</p>
+
+Typical events include clinic holidays, doctor availability changes, staff meetings, equipment maintenance, and general announcements.
+
+All staff members can view these updates in real time as part of their dashboard experience.
+
 
 
 ## ❗ Error Handling & User Experience Enhancements
 
 ### 🚫 Custom 404 / NoMatch Page
 <p align="center">
-  <img src="docs/media/404-page.png" alt="Custom 404 Page" width="800"/>
+  <img src="docs/404-page.gif" alt="Custom 404 Page" width="800"/>
 </p>
 
 If a user navigates to an unknown route, they are shown a clean fallback page instead of a blank screen.
@@ -571,16 +566,5 @@ Use the top navigation bar or dashboard buttons to access:
 - Role-specific tools  
 - Settings / Logout  
 
-### 4️⃣ Logging Out
-
-Click **Logout** in the navigation bar to safely end your session.
-
-## 🎬 Visual Walkthrough (GIF Placeholder)
-
-<p align="center">
-  <img src="docs/media/login-and-navigation.gif" alt="Login and App Walkthrough" width="800"/>
-  <br/>
-  <em>(Replace this with a GIF showing login → redirect → dashboard navigation)</em>
-</p>
 
 
