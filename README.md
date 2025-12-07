@@ -10,13 +10,6 @@
   Seamlessly integrates with a <b>Node.js + Express + Sequelize</b> backend for authentication, RBAC, patient records, lab workflows, and appointments.
 </p>
 
-# 🏥 Clinic Management System – Frontend
-
-A modern, role-based clinic management web application built with **React**, featuring dashboards for doctors, lab technicians, front-office staff, and administrators.  
- 
-This frontend connects to a dedicated **Node.js + Express + Sequelize backend**, which handles authentication, RBAC (role-based access control), patient records, lab workflows, appointments, and more.
-
-
 
 <p align="center">
   <!-- 🎞️ Placeholder for UI Demo GIF -->
