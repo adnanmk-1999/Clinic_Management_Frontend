@@ -1,3 +1,15 @@
+<p align="center">
+  <img src="docs/health-tech.png" alt="HealthTech Logo" width="140"/>
+</p>
+
+<h1 align="center">HealthTech – Clinic Management System</h1>
+
+<p>
+  A modern, role-based clinic management platform built with <b>React</b>, offering dedicated dashboards for doctors, lab technicians, front-office staff, and administrators.
+  <br/>
+  Seamlessly integrates with a <b>Node.js + Express + Sequelize</b> backend for authentication, RBAC, patient records, lab workflows, and appointments.
+</p>
+
 # 🏥 Clinic Management System – Frontend
 
 A modern, role-based clinic management web application built with **React**, featuring dashboards for doctors, lab technicians, front-office staff, and administrators.  
@@ -8,9 +20,7 @@ This frontend connects to a dedicated **Node.js + Express + Sequelize backend**,
 
 <p align="center">
   <!-- 🎞️ Placeholder for UI Demo GIF -->
-  <img src="docs/media/ui-demo.gif" alt="Clinic Management System UI Demo" width="800"/>
-  <br/>
-  <em>(Replace this with a GIF of the app in action)</em>
+  <img src="docs/ui-demo.gif" alt="Clinic Management System UI Demo" width="800"/>
 </p>
 
 
@@ -27,7 +37,7 @@ This includes:
 - Role-based access logic  
 - Patient database models  
 - Admin, Doctor, Lab Tech, and Front Office API routes  
-- MySQL integration (Aiven / Docker)  
+- MySQL integration (Local / Docker)  
 - Docker Compose support  
 
 
