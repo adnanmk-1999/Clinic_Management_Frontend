@@ -22,7 +22,7 @@
 The backend service that powers this frontend can be found here:
 
 👉 **Backend Repository:**  
-https://github.github.com/YOUR_USERNAME/Clinic_Management_Backend
+https://github.com/adnanmk-1999/Clinic_Management_Backend
 
 This includes:
 
@@ -56,9 +56,7 @@ Click to jump to a section:
 
 <p align="center">
   <!-- 🎞️ Placeholder for ABOUT PAGE GIF -->
-  <img src="docs/media/about-section.gif" alt="About Section - Clinic Management System" width="800"/>
-  <br/>
-  <em>(Replace this with a GIF showing the About section of the app)</em>
+  <img src="docs/about-section.gif" alt="About Section - Clinic Management System" width="800"/>
 </p>
 
 The **Clinic Management System – Frontend** is a unified web interface designed to streamline daily operations inside a clinic.  
@@ -164,9 +162,7 @@ The Clinic Management System follows a **three-tier architecture** consisting of
 This layered design ensures scalability, clean separation of concerns, and secure handling of patient and staff data.
 
 <p align="center">
-  <img src="docs/media/erd-schema.png" alt="Clinic Management System ERD" width="900"/>
-  <br/>
-  <em>(Replace this placeholder with your ERD image)</em>
+  <img src="docs/erd-schema.png" alt="Clinic Management System ERD" width="900"/>
 </p>
 
 ### 🧠 How the System Works Together
@@ -224,9 +220,7 @@ Every feature is connected to the backend API and adapts dynamically based on th
 
 <p align="center">
   <!-- 🎞️ Placeholder for a GIF showcasing multiple features -->
-  <img src="docs/media/features-overview.gif" alt="Features Overview GIF" width="800"/>
-  <br/>
-  <em>(Replace this with a GIF showing navigation through dashboards)</em>
+  <img src="docs/features-overview.gif" alt="Features Overview GIF" width="800"/>
 </p>
 
 ### 🌟 Key Highlights
