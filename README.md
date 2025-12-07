@@ -23,12 +23,12 @@ Jump to a section:
 
 1. [🏥 About the Application](#-about-the-application)
 2. [📐 Architecture & Backend Overview](#-architecture--backend-overview)
-4. [✨ Features](#-features)
-5. [🧭 How to Use the App](#-how-to-use-the-app-user-flow)
-6. [🚀 Getting Started](#-getting-started--frontend-only)
-11. [🔮 Future Enhancements](#-future-enhancements)
-8. [🔗 Related Repository (Backend)](#-related-repository-backend)
-12. [📄 Author](#-author)
+3. [✨ Features](#-features)
+4. [🚀 Getting Started](#-getting-started-with-the-app)
+5. [🧭 How to Use the App](#-how-to-use-the-app)
+6. [🔮 Future Enhancements](#-future-enhancements)
+7. [🔗 Related Repository (Backend)](#-related-repository-backend)
+8. [📄 Author](#-author)
 
 
 # 🩺 About the Application
