@@ -315,7 +315,7 @@ Replace this URL with your backend's deployed address.
 docker compose up --build
 ```
 
-Your app will now be available at:
+Your app will now be available at Port 3000 by default or another if you altered it (check .env):
 
 ```
 http://localhost:3000
@@ -361,7 +361,7 @@ Replace this URL with your backend's deployed address.
 npm start
 ```
 
-The app will launch at:
+The app will launch at Port 3000 by default or another if you altered it (check .env):
 
 ```
 http://localhost:3000
